@@ -12,13 +12,13 @@ interface SpacerProps {
 const generateStyles = (position: SpacerProps['position'], pr: string, size?: number) => {
    switch (position) {
       case 'top':
-         return `${pr}-top: ${size};`;
+         return `${pr}-top: ${size}px;`;
       case 'bottom':
-         return `${pr}-bottom: ${size};`;
+         return `${pr}-bottom: ${size}px;`;
       case 'left':
-         return `${pr}-left: ${size};`;
+         return `${pr}-left: ${size}px;`;
       case 'right':
-         return `${pr}-right: ${size};`;
+         return `${pr}-right: ${size}px;`;
       case 'top-bottom':
          return `${pr}-top: ${size}px; ${pr}-bottom: ${size}px;`;
       case 'left-right':
