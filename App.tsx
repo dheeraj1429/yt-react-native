@@ -7,22 +7,24 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './src/infrastructure/theme';
 import { store } from './src/state/store/store';
 import { Provider } from 'react-redux';
+import { StatusBar } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
    return (
-      <SafeArea>
+      <ThemeProvider theme={theme}>
          <Provider store={store}>
-            <ThemeProvider theme={theme}>
+            <SafeArea>
+               <StatusBar animated={true} barStyle={'light-content'} showHideTransition={'fade'} hidden={false} />
                <NavigationContainer>
                   <Stack.Navigator initialRouteName="Home">
                      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                   </Stack.Navigator>
                </NavigationContainer>
-            </ThemeProvider>
+            </SafeArea>
          </Provider>
-      </SafeArea>
+      </ThemeProvider>
    );
 }
 

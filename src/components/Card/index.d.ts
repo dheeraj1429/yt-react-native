@@ -1,20 +1,20 @@
 import React from 'react';
 import { ImageProps, TextProps, ViewProps } from 'react-native';
+import { WidthAndHeightInterface } from '../../shared/types';
 
 export interface CardContainerInterface {
    display?: 'flex' | 'block';
    flexDirection?: 'column' | 'row';
    gap?: number;
 }
-export interface CardImageStyleInterface {
-   width?: number;
-   height?: number;
+export interface CardImageStyleInterface extends WidthAndHeightInterface {
+   borderRadius?: number | number;
 }
 export interface CardImageInterface extends ImageProps, CardImageStyleInterface {}
 export interface CardContainerInterface extends ViewProps, CardContainerInterface {
    children?: React.ReactNode;
 }
-export interface CardContentContainer extends ViewProps {}
+export interface CardContentContainer extends ViewProps, WidthAndHeightInterface {}
 export interface CardHeadingTextStyle {
    fontSize?: number;
    color?: string;
