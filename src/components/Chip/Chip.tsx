@@ -1,20 +1,28 @@
-import React, { forwardRef, useRef } from 'react';
-import { View, ViewProps } from 'react-native';
-import { ChipContainer, ChipText } from './Chip.style';
+import React, { forwardRef } from 'react';
+import { TextProps, ViewProps } from 'react-native';
+import { ChipContainer, ChipTextStyle } from './Chip.style';
 
 export interface ChipProps extends ViewProps {
-   heading: string;
+   children?: React.ReactNode;
 }
 export interface ChipRef {}
+export interface ChipTextStyleInterface {
+   color?: string;
+   paddingLeft?: number;
+   paddingRight?: number;
+   paddingTop?: number;
+   paddingBottom?: number;
+   fontSize?: number;
+   fonWidth?: number;
+}
+export interface ChipTextInterface extends TextProps, ChipTextStyleInterface {
+   heading: string;
+}
 
-const Chip = forwardRef<ChipRef, ChipProps>(({ children, heading, ...props }, ref) => {
-   const innerRef = useRef<View>(null);
-
-   return (
-      <ChipContainer {...props} ref={innerRef}>
-         <ChipText>{heading}</ChipText>
-      </ChipContainer>
-   );
+export const Chip = forwardRef<ChipRef, ChipProps>(({ children, ...props }, _) => {
+   return <ChipContainer {...props}>{children}</ChipContainer>;
 });
 
-export default Chip;
+export const ChipText = forwardRef<TextProps, ChipTextInterface>(({ heading, ...props }, _) => {
+   return <ChipTextStyle {...props}>{heading}</ChipTextStyle>;
+});

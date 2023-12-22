@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavbarContainer, ImageContainer, Image } from './Navbar.style';
-import Chip, { ChipProps } from '../Chip/Chip';
 import { ScrollView, TouchableOpacity } from 'react-native';
+import { Chip, ChipText, ChipTextInterface } from '../Chip/Chip';
+import { Image, ImageContainer, NavbarContainer } from './Navbar.style';
 
-const TabsAr: Array<ChipProps> = [
+const TabsAr: Array<ChipTextInterface> = [
    { heading: 'Tv Shows' },
    { heading: 'Movies' },
    { heading: 'Categories' },
@@ -21,7 +21,9 @@ const Navbar = () => {
             </ImageContainer>
             {TabsAr.map(item => (
                <TouchableOpacity key={item.heading}>
-                  <Chip heading={item.heading} />
+                  <Chip>
+                     <ChipText heading={item.heading} />
+                  </Chip>
                </TouchableOpacity>
             ))}
          </NavbarContainer>

@@ -1,18 +1,7 @@
 import React, { forwardRef, useRef } from 'react';
-import { TouchableOpacity, TouchableOpacityProps, View, ViewProps } from 'react-native';
+import { Text, TextProps, TouchableOpacity, View, ViewProps } from 'react-native';
+import { HeadingContainerInterface, HeadingInterface, ShowAllInterface } from '.';
 import { HeadingContainerStyle, HeadingTextStyle, ShowAllTextStyle } from './Heading.style';
-
-export interface HeadingContainerInterface extends ViewProps {
-   children?: React.ReactNode;
-}
-export interface HeadingInterface extends ViewProps {
-   heading?: string;
-}
-export interface HeadingRef {}
-export interface ShowAllInterface extends TouchableOpacityProps {
-   showAll?: string;
-   children?: React.ReactNode;
-}
 
 export const HeadingContainer = forwardRef<ViewProps, HeadingContainerInterface>(({ children, ...props }, _) => {
    const headingRef = useRef<View>(null);
@@ -24,8 +13,8 @@ export const HeadingContainer = forwardRef<ViewProps, HeadingContainerInterface>
    );
 });
 
-export const HeadingText = forwardRef<ViewProps, HeadingInterface>(({ children, heading, ...props }, _) => {
-   const headingRef = useRef<View>(null);
+export const HeadingText = forwardRef<TextProps, HeadingInterface>(({ children, heading, ...props }, _) => {
+   const headingRef = useRef<Text>(null);
 
    return (
       <HeadingTextStyle {...props} ref={headingRef}>
@@ -34,12 +23,14 @@ export const HeadingText = forwardRef<ViewProps, HeadingInterface>(({ children, 
    );
 });
 
-export const ShowAllButton = forwardRef<TouchableOpacity, ShowAllInterface>(({ children, showAll, ...props }, _) => {
+export const ShowAllButton = forwardRef<TouchableOpacity, ShowAllInterface>(({ fontWeight, fontSize, color, children, showAll, ...props }, _) => {
    const buttonRef = useRef<TouchableOpacity>(null);
 
    return (
       <TouchableOpacity {...props} ref={buttonRef}>
-         <ShowAllTextStyle>{showAll}</ShowAllTextStyle>
+         <ShowAllTextStyle fontSize={fontSize} fontWeight={fontWeight} color={color}>
+            {showAll}
+         </ShowAllTextStyle>
       </TouchableOpacity>
    );
 });
