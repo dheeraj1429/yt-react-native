@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { CardContainer, CardText, ContentContainer, ImageContainer } from './Card.style';
+import { CardContainer, CardStyledText, ContentContainer, ImageContainer } from './Card.style';
 import { ImageProps } from 'react-native';
 import { CardContainerInterface, CardContentContainer, CardTextInterface, CardImageInterface } from '.';
 
@@ -15,6 +15,6 @@ export const Card = ({ children, ...props }: CardContainerInterface) => {
    return <CardContainer {...props}>{children}</CardContainer>;
 };
 
-export const CardHeading = ({ heading, ...props }: CardTextInterface) => {
-   return <CardText {...props}>{heading.length >= 70 ? `${heading.slice(0, 70)}...` : heading}</CardText>;
+export const CardText = ({ heading, length, ...props }: CardTextInterface) => {
+   return <CardStyledText {...props}>{heading.length >= (length! || 70) ? `${heading.slice(0, length || 70)}...` : heading}</CardStyledText>;
 };

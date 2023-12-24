@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { ScrollViewWithTheme } from '../../components/Container/Container';
 import Navbar from '../../components/Navbar/Navbar';
-import { ScrollViewWithTheme } from '../../components/SafeArea/SafeArea';
 import {
    useGetMovieDiscoverQuery,
    useGetPopularMoviesQuery,
@@ -8,6 +8,7 @@ import {
    useGetUpcomingMoviesQuery,
 } from '../../state/features/movies/movies.apiSlice';
 import MoviesScrollView from './components/MoviesScrollView/MoviesScrollView';
+import NavMenu from '../../components/NavMenu/NavMenu';
 
 const Home = () => {
    const { isLoading: getTopRatedMoviesLoading, data: getTopRatedMoviesData } = useGetTopRatedMoviesQuery({ page: 1 });
@@ -22,15 +23,14 @@ const Home = () => {
    });
 
    return (
-      <Fragment>
-         <ScrollViewWithTheme>
-            <Navbar />
-            <MoviesScrollView isLoading={getPopularMoviesLoading} data={getPopularMoviesData} heading="Popular Movies" showAll="View More" />
-            <MoviesScrollView isLoading={getTopRatedMoviesLoading} data={getTopRatedMoviesData} heading="Top Rated" showAll="View More" />
-            <MoviesScrollView isLoading={getUpComingMoviesLoading} data={getUpComingMoviesData} heading="Upcoming Movies" showAll="View More" />
-            <MoviesScrollView isLoading={getMovieDiscoverLoading} data={getMovieDiscoverData} heading="Movie Discover" showAll="View More" />
-         </ScrollViewWithTheme>
-      </Fragment>
+      <ScrollViewWithTheme>
+         <NavMenu />
+         <Navbar />
+         <MoviesScrollView isLoading={getPopularMoviesLoading} data={getPopularMoviesData} heading="Popular Movies" showAll="View More" />
+         <MoviesScrollView isLoading={getTopRatedMoviesLoading} data={getTopRatedMoviesData} heading="Top Rated" showAll="View More" />
+         <MoviesScrollView isLoading={getUpComingMoviesLoading} data={getUpComingMoviesData} heading="Upcoming Movies" showAll="View More" />
+         <MoviesScrollView isLoading={getMovieDiscoverLoading} data={getMovieDiscoverData} heading="Movie Discover" showAll="View More" />
+      </ScrollViewWithTheme>
    );
 };
 

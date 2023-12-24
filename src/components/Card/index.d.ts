@@ -22,4 +22,5 @@ export interface CardHeadingTextStyle {
 }
 export interface CardTextInterface extends TextProps, CardHeadingTextStyle {
    heading: string;
+   length?: number;
 }

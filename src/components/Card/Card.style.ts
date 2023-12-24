@@ -21,7 +21,7 @@ export const ContentContainer = styled(View)<CardContentContainer>`
    height: ${props => (props.customWidth ? props.customWidth : 'auto')};
 `;
 
-export const CardText = styled(Text)<CardHeadingTextStyle>`
+export const CardStyledText = styled(Text)<CardHeadingTextStyle>`
    font-size: ${props => (props.fontSize ? `${props.fontSize}px` : props.theme.sizes.fontSize['text-3xl'] + 'px')};
    font-weight: ${props => (props.fontWeight ? props.fontWeight : 600)};
    color: ${props => (props.color ? props.color : props.theme.colors.brand.muted)};
