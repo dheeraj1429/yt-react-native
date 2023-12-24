@@ -13,7 +13,7 @@ export type Spacing = {
    '8xl': number;
    '9xl': number;
 };
-export type Width = {
+export type WidthAndHeight = {
    sm: number;
    medium: number;
    lg: number;
@@ -38,46 +38,6 @@ export type Width = {
    colossal: number;
 };
 
-export type Height = {
-   'h-1/2': string;
-   'h-1/3': string;
-   'h-2/3': string;
-   'h-1/4': string;
-   'h-2/4': string;
-   'h-3/4': string;
-   'h-1/5': string;
-   'h-2/5': string;
-   'h-3/5': string;
-   'h-4/5': string;
-   'h-1/6': string;
-   'h-5/6': string;
-   'h-1/7': string;
-   'h-2/7': string;
-   'h-3/7': string;
-   'h-4/7': string;
-   'h-5/7': string;
-   'h-6/7': string;
-   'h-1/8': string;
-   'h-3/8': string;
-   'h-5/8': string;
-   'h-7/8': string;
-   'h-1/9': string;
-   'h-2/9': string;
-   'h-4/9': string;
-   'h-5/9': string;
-   'h-7/9': string;
-   'h-8/9': string;
-   'h-1/10': string;
-   'h-3/10': string;
-   'h-7/10': string;
-   'h-9/10': string;
-   'h-1/12': string;
-   'h-5/12': string;
-   'h-7/12': string;
-   'h-11/12': string;
-   'h-full': string;
-};
-
 export type FontSize = {
    'text-xs': number;
    'text-sm': number;
@@ -96,7 +56,6 @@ export type FontSize = {
 
 export type Sizes = {
    spacing: Spacing;
-   width: Width;
-   height: Height;
+   widthAndHeight: WidthAndHeight;
    fontSize: FontSize;
 };

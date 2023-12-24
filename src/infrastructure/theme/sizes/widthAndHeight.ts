@@ -1,6 +1,6 @@
-import { Width } from '.';
+import { WidthAndHeight } from '.';
 
-export const width: Width = {
+export const widthAndHeight: WidthAndHeight = {
    sm: 4,
    medium: 6,
    lg: 10,

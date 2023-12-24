@@ -6,12 +6,14 @@ export const CardContainer = styled(View)<CardContainerInterface>`
    display: ${props => (props.display ? props.display : 'block')};
    flex-direction: ${props => (props.flexDirection ? props.flexDirection : 'column')};
    gap: ${props => (props.gap ? `${props.gap}px` : 'auto')};
+   width: ${props => (props.customWidth ? props.customWidth : '100%')};
+   height: ${props => (props.customHeight ? props.customHeight : 'auto')};
 `;
 
 export const ImageContainer = styled(Image)<CardImageStyleInterface>`
    width: ${props => (props.customWidth ? props.customWidth : '100%')};
-   height: ${props => (props.customHeight ? props.customHeight : '200px')};
-   border-radius: ${props => (props.borderRadius ? props.borderRadius : '8px')};
+   height: ${props => (props.customHeight ? props.customHeight : '100%')};
+   border-radius: ${props => (props.radius ? props.radius : '8px')};
 `;
 
 export const ContentContainer = styled(View)<CardContentContainer>`

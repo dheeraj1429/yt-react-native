@@ -16,5 +16,5 @@ export const Card = ({ children, ...props }: CardContainerInterface) => {
 };
 
 export const CardHeading = ({ heading, ...props }: CardTextInterface) => {
-   return <CardText {...props}>{heading}</CardText>;
+   return <CardText {...props}>{heading.length >= 70 ? `${heading.slice(0, 70)}...` : heading}</CardText>;
 };

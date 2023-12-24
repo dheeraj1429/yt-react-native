@@ -17,12 +17,23 @@ export interface Bg {
    secondary: string;
 }
 export interface Text {
-   primary: string;
-   secondary: string;
-   disabled: string;
-   inverse: string;
-   error: strung;
-   success: string;
+   primaryLight: string;
+   primaryDark: string;
+
+   secondaryLight: string;
+   secondaryDark: string;
+
+   disabledLight: string;
+   disabledDark: string;
+
+   inverseLight: string;
+   inverseDark: string;
+
+   errorLight: string;
+   errorDark: string;
+
+   successLight: string;
+   successDark: string;
 }
 export interface Colors {
    brand: Brand;

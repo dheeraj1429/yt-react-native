@@ -4,3 +4,11 @@ export interface WidthAndHeightInterface {
    customWidth?: string | number;
    customHeight?: string | number;
 }
+export interface PaginationPayloadInterface {
+   page?: number;
+}
+export interface PaginationInterface {
+   page?: number;
+   total_pages?: number;
+   total_results?: number;
+}

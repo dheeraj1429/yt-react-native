@@ -9,8 +9,8 @@ export const NavbarContainer = styled.View`
 `;
 
 export const ImageContainer = styled.View`
-   width: ${props => props.theme.sizes.width.giga + 'px'};
-   height: ${props => props.theme.sizes.width.giga + 'px'};
+   width: ${props => props.theme.sizes.widthAndHeight.giga + 'px'};
+   height: ${props => props.theme.sizes.widthAndHeight.giga + 'px'};
 `;
 
 export const Image = styled.Image`

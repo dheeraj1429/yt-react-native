@@ -2,13 +2,13 @@ import React from 'react';
 import { ImageProps, TextProps, ViewProps } from 'react-native';
 import { WidthAndHeightInterface } from '../../shared/types';
 
-export interface CardContainerInterface {
+export interface CardContainerInterface extends WidthAndHeightInterface {
    display?: 'flex' | 'block';
    flexDirection?: 'column' | 'row';
    gap?: number;
 }
 export interface CardImageStyleInterface extends WidthAndHeightInterface {
-   borderRadius?: number | number;
+   radius?: string;
 }
 export interface CardImageInterface extends ImageProps, CardImageStyleInterface {}
 export interface CardContainerInterface extends ViewProps, CardContainerInterface {

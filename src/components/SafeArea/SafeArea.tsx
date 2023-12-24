@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 
 interface SafeAreaInterface {
@@ -16,12 +16,21 @@ export const ScrollViewWithThemeContainer = styled(ScrollView)`
    background-color: ${props => props.theme.colors.brand.secondary};
 `;
 
+export const FullViewContainerStyle = styled(View)`
+   flex: 1;
+   background-color: ${props => props.theme.colors.brand.secondary};
+`;
+
 const SafeArea = ({ children }: SafeAreaInterface) => {
    return <SafeAreaContainer>{children}</SafeAreaContainer>;
 };
 
 export const ScrollViewWithTheme = ({ children }: { children: React.ReactNode }) => {
    return <ScrollViewWithThemeContainer>{children}</ScrollViewWithThemeContainer>;
+};
+
+export const FullViewContainer = ({ children }: { children: React.ReactNode }) => {
+   return <FullViewContainerStyle>{children}</FullViewContainerStyle>;
 };
 
 export default SafeArea;
