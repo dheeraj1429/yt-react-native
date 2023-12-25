@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '../../../../components/Box/Box';
-import { theme } from '../../../../infrastructure/theme';
+import { theme } from '../../../../infrastructure/styleComponentTheme';
 import { GetMoviesInterface } from '../../../../state/features/movies';
 import { Spinner, SpinnerContainer } from '../../../../components/Spinner/Spinner';
 import { ScrollView, View } from 'react-native';

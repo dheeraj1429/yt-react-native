@@ -1,7 +1,7 @@
 import React from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { theme } from '../../infrastructure/theme';
+import { theme } from '../../infrastructure/styleComponentTheme';
 import Box from '../Box/Box';
 import { ViewWithSidePadding } from '../Container/Container';
 import { TouchableOpacity } from 'react-native';
