@@ -1,0 +1,26 @@
+import { WidthAndHeight } from '.';
+
+export const widthAndHeight: WidthAndHeight = {
+   sm: 4,
+   medium: 6,
+   lg: 10,
+   xl: 15,
+   xxl: 20,
+   small: 3,
+   large: 8,
+   extraLarge: 12,
+   tiny: 2,
+   huge: 18,
+   nano: 1,
+   micro: 0.5,
+   mega: 25,
+   giga: 30,
+   ultra: 35,
+   mini: 5,
+   maxi: 22,
+   jumbo: 40,
+   super: 50,
+   grand: 60,
+   immense: 75,
+   colossal: 90,
+};
