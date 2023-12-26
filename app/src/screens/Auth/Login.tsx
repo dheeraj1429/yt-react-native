@@ -64,7 +64,7 @@ const Login = ({ navigation }: NavigationPropType) => {
 
    useEffect(() => {
       if (singInSuccess || registerSuccess) {
-         navigation.navigate('Home');
+         navigation.navigate('Main');
       }
    }, [singInSuccess, registerSuccess]);
 
