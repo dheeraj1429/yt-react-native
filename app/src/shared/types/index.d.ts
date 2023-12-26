@@ -12,3 +12,10 @@ export interface PaginationInterface {
    total_pages?: number;
    total_results?: number;
 }
+export interface ApiErrorResponseInterface {
+   data: {
+      error: string;
+      message: Array<string> | string;
+      statusCode: string;
+   };
+}

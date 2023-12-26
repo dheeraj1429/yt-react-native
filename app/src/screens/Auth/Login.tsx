@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
@@ -8,10 +8,11 @@ import * as yup from 'yup';
 import Box from '../../components/Box/Box';
 import { Card, CardImage, Text } from '../../components/Card/Card';
 import { FullViewContainer, ViewWithSidePadding } from '../../components/Container/Container';
+import { ErrorView } from '../../components/Error/Error';
 import { theme } from '../../infrastructure/styleComponentTheme';
+import { ApiErrorResponseInterface, NavigationPropType } from '../../shared/types';
+import { useRegisterMutation, useSignInMutation } from '../../state/features/auth/auth.apiSlice';
 import { LoginContainer, LoginContentContainer, LoginExtraOptionsContainer } from './Login.style';
-import { useSignInMutation } from '../../state/features/auth/auth.apiSlice';
-import { NavigationPropType } from '../../shared/types';
 
 interface LoginInterface {
    email: string;
@@ -47,10 +48,13 @@ const Login = ({ navigation }: NavigationPropType) => {
       resolver: yupResolver(schema),
       context: { isSignUpUser },
    });
-   const [singIn, { isLoading, isSuccess }] = useSignInMutation();
+   const [singIn, { isLoading: singInLoading, isSuccess: singInSuccess, error: signInError }] = useSignInMutation();
+   const [register, { isLoading: registerLoading, isSuccess: registerSuccess, error: registerError }] = useRegisterMutation();
+   const authenticationError: ApiErrorResponseInterface | undefined = (signInError || registerError) as ApiErrorResponseInterface;
 
    const onSubmit = function (data: LoginInterface) {
-      singIn(data);
+      if (!isSignUpUser) return singIn(data);
+      return register(data);
    };
 
    const changeFormHandler = function () {
@@ -59,10 +63,10 @@ const Login = ({ navigation }: NavigationPropType) => {
    };
 
    useEffect(() => {
-      if (isSuccess) {
+      if (singInSuccess || registerSuccess) {
          navigation.navigate('Home');
       }
-   }, [isSuccess]);
+   }, [singInSuccess, registerSuccess]);
 
    return (
       <FullViewContainer>
@@ -174,12 +178,13 @@ const Login = ({ navigation }: NavigationPropType) => {
                            buttonColor={theme.colors.brand.primary}
                            mode="contained"
                            onPress={handleSubmit(onSubmit)}
-                           loading={isLoading}
+                           loading={singInLoading || registerLoading}
                         >
                            Sign In
                         </Button>
                      </Box>
                   </Box>
+                  {!!authenticationError && authenticationError?.data ? <ErrorView messages={authenticationError.data?.message} /> : null}
                </LoginContentContainer>
                <LoginExtraOptionsContainer>
                   <Box gap={'3px'} display="flex" flexDirection="row" alignItems="center">

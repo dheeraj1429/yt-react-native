@@ -29,7 +29,22 @@ export const authApiSlice = createApi({
             }
          },
       }),
+      register: builder.mutation<UserResponseInterface, UserAuthPayload>({
+         query: (body) => ({
+            url: '/auth/register',
+            method: 'POST',
+            body,
+         }),
+         onQueryStarted: async (_, { queryFulfilled }) => {
+            try {
+               const { data } = await queryFulfilled;
+               await AsyncStorage.setItem('user', JSON.stringify(data));
+            } catch (err) {
+               console.log(err);
+            }
+         },
+      }),
    }),
 });
 
-export const { useSignInMutation } = authApiSlice;
+export const { useSignInMutation, useRegisterMutation } = authApiSlice;
