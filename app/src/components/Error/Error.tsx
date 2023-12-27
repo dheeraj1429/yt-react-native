@@ -23,13 +23,17 @@ export const ErrorView = ({ messages }: { messages: Array<string> | string }) =>
       messages.map((item) => (
          <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
             <Error key={item} severity="error">
-               <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']} heading={item} />
+               <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']}>
+                  {item}
+               </Text>
             </Error>
          </Box>
       ))
    ) : (
       <Error severity="error">
-         <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']} heading={messages} />
+         <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']}>
+            {messages}
+         </Text>
       </Error>
    );
 };

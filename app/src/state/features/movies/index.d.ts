@@ -26,3 +26,15 @@ export interface GetMovieDiscoverPayload {
    'vote_average.gte'?: number;
    with_genres?: number;
 }
+export interface ProductionCompaniesInterface {
+   id: number;
+   logo_path: string;
+   name: string;
+   origin_country: string;
+}
+export interface GetSingleMovieDetailsInterface extends MovieInterface {
+   production_companies: ProductionCompaniesInterface;
+}
+export interface GetSingleMovieDetailsPayload {
+   movieId: string;
+}

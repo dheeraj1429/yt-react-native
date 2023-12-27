@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TouchableOpacity } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import * as yup from 'yup';
@@ -13,6 +13,8 @@ import { theme } from '../../infrastructure/styleComponentTheme';
 import { ApiErrorResponseInterface, NavigationPropType } from '../../shared/types';
 import { useRegisterMutation, useSignInMutation } from '../../state/features/auth/auth.apiSlice';
 import { LoginContainer, LoginContentContainer, LoginExtraOptionsContainer } from './Login.style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { appRoutes } from '../../../App.Route';
 
 interface LoginInterface {
    email: string;
@@ -39,6 +41,7 @@ const Login = ({ navigation }: NavigationPropType) => {
    const [secureTextPasswordShow, setSecureTextPasswordShow] = useState<boolean>(true);
    const [secureTextConfirmPasswordShow, setSecureTextConfirmPasswordShow] = useState<boolean>(true);
    const [isSignUpUser, setIsSignUpUser] = useState<boolean>(false);
+   const [showLoading, setShowLoading] = useState<boolean>(false);
    const {
       handleSubmit,
       formState: { errors },
@@ -52,6 +55,15 @@ const Login = ({ navigation }: NavigationPropType) => {
    const [register, { isLoading: registerLoading, isSuccess: registerSuccess, error: registerError }] = useRegisterMutation();
    const authenticationError: ApiErrorResponseInterface | undefined = (signInError || registerError) as ApiErrorResponseInterface;
 
+   const isLoginExistInCache = async function () {
+      setShowLoading(true);
+      const user = await AsyncStorage.getItem('user');
+      if (user) {
+         navigation.navigate(appRoutes.main);
+      }
+      setShowLoading(false);
+   };
+
    const onSubmit = function (data: LoginInterface) {
       if (!isSignUpUser) return singIn(data);
       return register(data);
@@ -63,8 +75,12 @@ const Login = ({ navigation }: NavigationPropType) => {
    };
 
    useEffect(() => {
+      isLoginExistInCache();
+   }, []);
+
+   useEffect(() => {
       if (singInSuccess || registerSuccess) {
-         navigation.navigate('Main');
+         navigation.navigate(appRoutes.main);
       }
    }, [singInSuccess, registerSuccess]);
 
@@ -78,70 +94,43 @@ const Login = ({ navigation }: NavigationPropType) => {
                         <CardImage source={require('../../../public/images/pngwing.com.png')} />
                      </Card>
                      <Box position="top-bottom" size={theme.sizes.spacing.lg} margin={true}>
-                        <Text
-                           color={theme.colors.ui.disabled}
-                           fontSize={theme.sizes.fontSize['text-2xl']}
-                           heading="Enjoy the world of entertainment"
-                        />
+                        <Text color={theme.colors.ui.disabled} fontSize={theme.sizes.fontSize['text-2xl']}>
+                           Enjoy the world of entertainment
+                        </Text>
                      </Box>
                   </Box>
-                  <Box position="top-bottom" margin={true} size={theme.sizes.spacing['xl']}>
-                     <Box position="bottom" margin={true} size={theme.sizes.spacing['lg']}>
-                        <Text
-                           fontSize={theme.sizes.fontSize['text-6xl']}
-                           color={theme.colors.text.primaryLight}
-                           heading={isSignUpUser ? 'Log In' : 'Sign In'}
-                        />
+                  {showLoading ? (
+                     <Box position="top" margin={true} size={theme.sizes.spacing['2xl']}>
+                        <ActivityIndicator />
                      </Box>
-                     <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
-                        <Controller
-                           name="email"
-                           control={control}
-                           render={({ field: { onChange, value } }) => (
-                              <TextInput
-                                 left={<TextInput.Icon icon="email" />}
-                                 error={!!errors?.email?.message || false}
-                                 onChangeText={onChange}
-                                 value={value || ''}
-                                 autoCorrect={false}
-                                 label="Email or phone number"
-                                 mode="outlined"
-                              />
-                           )}
-                        />
-                        {errors?.email?.message ? <HelperText type="error">{errors.email.message}</HelperText> : null}
-                     </Box>
-                     <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
-                        <Controller
-                           name="password"
-                           control={control}
-                           render={({ field: { onChange, value } }) => (
-                              <TextInput
-                                 left={<TextInput.Icon icon="lock" />}
-                                 error={!!errors?.password?.message || false}
-                                 onChangeText={onChange}
-                                 value={value || ''}
-                                 autoCorrect={false}
-                                 right={
-                                    <TextInput.Icon
-                                       onPress={() => setSecureTextPasswordShow(!secureTextPasswordShow)}
-                                       icon={() => (
-                                          <Entypo color={theme.colors.ui.secondary} name={secureTextPasswordShow ? 'eye' : 'eye-with-line'} />
-                                       )}
-                                    />
-                                 }
-                                 secureTextEntry={secureTextPasswordShow}
-                                 label="Password"
-                                 mode="outlined"
-                              />
-                           )}
-                        />
-                        {errors?.password?.message ? <HelperText type="error">{errors.password.message}</HelperText> : null}
-                     </Box>
-                     {isSignUpUser ? (
+                  ) : (
+                     <Box position="top-bottom" margin={true} size={theme.sizes.spacing['xl']}>
+                        <Box position="bottom" margin={true} size={theme.sizes.spacing['lg']}>
+                           <Text fontSize={theme.sizes.fontSize['text-6xl']} color={theme.colors.text.primaryLight}>
+                              {isSignUpUser ? 'Log In' : 'Sign In'}
+                           </Text>
+                        </Box>
                         <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
                            <Controller
-                              name="confirmPassword"
+                              name="email"
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                 <TextInput
+                                    left={<TextInput.Icon icon="email" />}
+                                    error={!!errors?.email?.message || false}
+                                    onChangeText={onChange}
+                                    value={value || ''}
+                                    autoCorrect={false}
+                                    label="Email or phone number"
+                                    mode="outlined"
+                                 />
+                              )}
+                           />
+                           {errors?.email?.message ? <HelperText type="error">{errors.email.message}</HelperText> : null}
+                        </Box>
+                        <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
+                           <Controller
+                              name="password"
                               control={control}
                               render={({ field: { onChange, value } }) => (
                                  <TextInput
@@ -152,45 +141,79 @@ const Login = ({ navigation }: NavigationPropType) => {
                                     autoCorrect={false}
                                     right={
                                        <TextInput.Icon
-                                          onPress={() => setSecureTextConfirmPasswordShow(!secureTextConfirmPasswordShow)}
+                                          onPress={() => setSecureTextPasswordShow(!secureTextPasswordShow)}
                                           icon={() => (
-                                             <Entypo
-                                                color={theme.colors.ui.secondary}
-                                                name={secureTextConfirmPasswordShow ? 'eye' : 'eye-with-line'}
-                                             />
+                                             <Entypo color={theme.colors.ui.secondary} name={secureTextPasswordShow ? 'eye' : 'eye-with-line'} />
                                           )}
                                        />
                                     }
-                                    secureTextEntry={secureTextConfirmPasswordShow}
-                                    label="Confirm password"
+                                    secureTextEntry={secureTextPasswordShow}
+                                    label="Password"
                                     mode="outlined"
                                  />
                               )}
                            />
-                           {errors?.confirmPassword?.message ? <HelperText type="error">{errors.confirmPassword.message}</HelperText> : null}
+                           {errors?.password?.message ? <HelperText type="error">{errors.password.message}</HelperText> : null}
                         </Box>
-                     ) : null}
-                     <Box margin={true} position="top" size={theme.sizes.spacing['xl']}>
-                        <Button
-                           style={{ borderRadius: 5 }}
-                           uppercase={true}
-                           textColor={theme.colors.text.primaryLight}
-                           buttonColor={theme.colors.brand.primary}
-                           mode="contained"
-                           onPress={handleSubmit(onSubmit)}
-                           loading={singInLoading || registerLoading}
-                        >
-                           Sign In
-                        </Button>
+                        {isSignUpUser ? (
+                           <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
+                              <Controller
+                                 name="confirmPassword"
+                                 control={control}
+                                 render={({ field: { onChange, value } }) => (
+                                    <TextInput
+                                       left={<TextInput.Icon icon="lock" />}
+                                       error={!!errors?.password?.message || false}
+                                       onChangeText={onChange}
+                                       value={value || ''}
+                                       autoCorrect={false}
+                                       right={
+                                          <TextInput.Icon
+                                             onPress={() => setSecureTextConfirmPasswordShow(!secureTextConfirmPasswordShow)}
+                                             icon={() => (
+                                                <Entypo
+                                                   color={theme.colors.ui.secondary}
+                                                   name={secureTextConfirmPasswordShow ? 'eye' : 'eye-with-line'}
+                                                />
+                                             )}
+                                          />
+                                       }
+                                       secureTextEntry={secureTextConfirmPasswordShow}
+                                       label="Confirm password"
+                                       mode="outlined"
+                                    />
+                                 )}
+                              />
+                              {errors?.confirmPassword?.message ? <HelperText type="error">{errors.confirmPassword.message}</HelperText> : null}
+                           </Box>
+                        ) : null}
+                        <Box margin={true} position="top" size={theme.sizes.spacing['xl']}>
+                           <Button
+                              style={{ borderRadius: 5 }}
+                              uppercase={true}
+                              textColor={theme.colors.text.primaryLight}
+                              buttonColor={theme.colors.brand.primary}
+                              mode="contained"
+                              onPress={handleSubmit(onSubmit)}
+                              loading={singInLoading || registerLoading}
+                           >
+                              Sign In
+                           </Button>
+                        </Box>
                      </Box>
-                  </Box>
+                  )}
+
                   {!!authenticationError && authenticationError?.data ? <ErrorView messages={authenticationError.data?.message} /> : null}
                </LoginContentContainer>
                <LoginExtraOptionsContainer>
                   <Box gap={'3px'} display="flex" flexDirection="row" alignItems="center">
-                     <Text fontWeight={500} color={theme.colors.ui.secondary} fontSize={theme.sizes.fontSize['text-2xl']} heading="New to netflix?" />
+                     <Text fontWeight={500} color={theme.colors.ui.secondary} fontSize={theme.sizes.fontSize['text-2xl']}>
+                        New to netflix?
+                     </Text>
                      <TouchableOpacity onPress={changeFormHandler}>
-                        <Text fontWeight={500} fontSize={theme.sizes.fontSize['text-2xl']} heading={isSignUpUser ? 'Log In' : 'Sign up now'} />
+                        <Text fontWeight={500} fontSize={theme.sizes.fontSize['text-2xl']}>
+                           {isSignUpUser ? 'Log In' : 'Sign up now'}
+                        </Text>
                      </TouchableOpacity>
                   </Box>
                </LoginExtraOptionsContainer>

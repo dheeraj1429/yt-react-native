@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { PaginationPayloadInterface } from '../../../shared/types';
 import { addApiKeyWithRequest } from '../../../utils/helper';
-import { GetMovieDiscoverPayload, GetMoviesInterface } from '.';
+import { GetMovieDiscoverPayload, GetMoviesInterface, GetSingleMovieDetailsInterface, GetSingleMovieDetailsPayload } from '.';
 
 const tagTypesAr = {
    getMovies: 'getMovies',
    topRatedMovies: 'topRatedMovies',
    getUpComingMovies: 'getUpComingMovies',
    getMovieDiscover: 'getMovieDiscover',
+   getSingleMovieDetails: 'getSingleMovieDetails',
 };
 
 const baseQueryWithAuth = fetchBaseQuery({
@@ -47,7 +48,19 @@ export const moviesApiSlice = createApi({
             providesTags: [tagTypesAr.getMovieDiscover],
          }),
       }),
+      getSingleMovieDetails: builder.query<GetSingleMovieDetailsInterface, GetSingleMovieDetailsPayload>({
+         query: ({ movieId }) => ({
+            url: addApiKeyWithRequest(`/movie/${movieId}`),
+            providesTags: [tagTypesAr.getSingleMovieDetails],
+         }),
+      }),
    }),
 });
 
-export const { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery, useGetUpcomingMoviesQuery, useGetMovieDiscoverQuery } = moviesApiSlice;
+export const {
+   useGetPopularMoviesQuery,
+   useGetTopRatedMoviesQuery,
+   useGetUpcomingMoviesQuery,
+   useGetMovieDiscoverQuery,
+   useLazyGetSingleMovieDetailsQuery,
+} = moviesApiSlice;

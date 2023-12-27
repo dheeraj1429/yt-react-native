@@ -21,6 +21,6 @@ export interface CardHeadingTextStyle {
    fontWeight?: number;
 }
 export interface TextInterface extends TextProps, CardHeadingTextStyle {
-   heading: string;
    length?: number;
+   children?: React.ReactNode;
 }
