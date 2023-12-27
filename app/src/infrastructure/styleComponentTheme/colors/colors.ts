@@ -37,5 +37,7 @@ export const colors: Colors = {
 
       successLight: '#49E08B', // Lighter shade of Green (success)
       successDark: '#007B39', // Darker shade of Green (success)
+
+      gray: '#212020',
    },
 };

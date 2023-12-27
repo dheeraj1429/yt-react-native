@@ -34,6 +34,8 @@ export interface Text {
 
    successLight: string;
    successDark: string;
+
+   gray: string;
 }
 export interface Colors {
    brand: Brand;

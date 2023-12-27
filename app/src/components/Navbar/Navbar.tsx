@@ -20,7 +20,7 @@ const Navbar = () => {
                <ImageContainer>
                   <Image source={require('../../../public/images/pngwing.com.png')} />
                </ImageContainer>
-               {TabsAr.map(item => (
+               {TabsAr.map((item) => (
                   <TouchableOpacity key={item.heading}>
                      <Chip>
                         <ChipText heading={item.heading} />

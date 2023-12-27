@@ -3,7 +3,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type NavigationPropType = NativeStackScreenProps<RootStackParamList, string, string>;
 export type StackNavigation = NavigationProp<RootStackParamList>;
-
 export interface WidthAndHeightInterface {
    customWidth?: string | number;
    customHeight?: string | number;
@@ -23,3 +22,7 @@ export interface ApiErrorResponseInterface {
       statusCode: string;
    };
 }
+export type DisplayType = 'inline' | 'inline-block' | 'block' | 'none' | 'flex';
+export type JustifyContentType = 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around' | 'initial';
+export type AlignItemsType = 'center' | 'normal' | 'flex-start' | 'flex-end' | 'start' | 'end' | 'baseline';
+export type FlexDirectionType = 'row' | 'column';

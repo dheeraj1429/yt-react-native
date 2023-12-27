@@ -1,11 +1,14 @@
 import React from 'react';
 import { ImageProps, TextProps, ViewProps } from 'react-native';
-import { WidthAndHeightInterface } from '../../shared/types';
+import { DisplayType, FlexDirectionType, WidthAndHeightInterface } from '../../shared/types';
+import { SpaceProps } from '../Box/Box';
 
-export interface CardContainerInterface extends WidthAndHeightInterface {
-   display?: 'flex' | 'block';
-   flexDirection?: 'column' | 'row';
+export interface CardContainerInterface extends WidthAndHeightInterface, SpaceProps {
+   display?: DisplayType;
+   flexDirection?: FlexDirectionType;
    gap?: number;
+   backgroundColor?: string;
+   borderRadius?: number;
 }
 export interface CardImageStyleInterface extends WidthAndHeightInterface {
    radius?: string;

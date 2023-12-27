@@ -1,16 +1,24 @@
 import React from 'react';
 import { BoxContainer } from './Box.style';
+import {
+   AlignItemsType,
+   DisplayType,
+   FlexDirectionType,
+   JustifyContentType,
+} from '../../shared/types';
 
-export interface BoxProps {
+export interface SpaceProps {
    position?: 'top' | 'bottom' | 'left' | 'right' | 'top-bottom' | 'left-right' | 'all';
    size?: number;
    padding?: boolean;
    margin?: boolean;
+}
+export interface BoxProps extends SpaceProps {
    children?: React.ReactNode;
-   display?: 'inline' | 'inline-block' | 'block' | 'none' | 'flex';
-   justifyContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around' | 'initial';
-   alignItems?: 'center' | 'normal' | 'flex-start' | 'flex-end' | 'start' | 'end' | 'baseline';
-   flexDirection?: 'row' | 'column';
+   display?: DisplayType;
+   justifyContent?: JustifyContentType;
+   alignItems?: AlignItemsType;
+   flexDirection?: FlexDirectionType;
    gap?: string;
 }
 
