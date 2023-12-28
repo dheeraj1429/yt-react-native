@@ -1,7 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { PaginationPayloadInterface } from '../../../shared/types';
 import { addApiKeyWithRequest } from '../../../utils/helper';
-import { GetMovieDiscoverPayload, GetMoviesInterface, GetSingleMovieDetailsInterface, GetSingleMovieDetailsPayload } from '.';
+import {
+   GetMovieDiscoverPayload,
+   GetMoviesInterface,
+   GetSingleMovieDetailsInterface,
+   GetSingleMovieDetailsPayload,
+} from '.';
 
 const tagTypesAr = {
    getMovies: 'getMovies',

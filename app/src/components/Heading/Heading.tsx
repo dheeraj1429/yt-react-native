@@ -23,14 +23,14 @@ export const HeadingText = forwardRef<TextProps, HeadingInterface>(({ children, 
    );
 });
 
-export const ShowAllButton = forwardRef<TouchableOpacity, ShowAllInterface>(({ fontWeight, fontSize, color, children, showAll, ...props }, _) => {
-   const buttonRef = useRef<TouchableOpacity>(null);
-
-   return (
-      <TouchableOpacity {...props} ref={buttonRef}>
-         <ShowAllTextStyle fontSize={fontSize} fontWeight={fontWeight} color={color}>
-            {showAll}
-         </ShowAllTextStyle>
-      </TouchableOpacity>
-   );
-});
+export const ShowAllButton = forwardRef<TouchableOpacity, ShowAllInterface>(
+   ({ fontWeight, fontSize, color, children, showAll, ...props }, ref) => {
+      return (
+         <TouchableOpacity {...props} ref={ref}>
+            <ShowAllTextStyle fontSize={fontSize} fontWeight={fontWeight} color={color}>
+               {showAll}
+            </ShowAllTextStyle>
+         </TouchableOpacity>
+      );
+   },
+);

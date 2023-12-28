@@ -33,7 +33,7 @@ export interface ProductionCompaniesInterface {
    origin_country: string;
 }
 export interface GetSingleMovieDetailsInterface extends MovieInterface {
-   production_companies: ProductionCompaniesInterface;
+   production_companies: Array<ProductionCompaniesInterface>;
    budget: number;
    belongs_to_collection: {
       id: number;

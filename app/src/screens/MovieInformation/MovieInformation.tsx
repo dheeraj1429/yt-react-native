@@ -16,6 +16,8 @@ import { NavigationPropType } from '../../shared/types';
 import { useLazyGetSingleMovieDetailsQuery } from '../../state/features/movies/movies.apiSlice';
 import { getPosterImage } from '../../utils/helper';
 import { MovieInformationContainer, StyledButton } from './MovieInformation.style';
+import { SearchBarContainer, SearchInput, SearchIcon } from '../../components/SearchBar/SearchBar';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 interface RouteParams {
    movieId?: string;
@@ -38,6 +40,12 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
 
    return (
       <ScrollViewWithTheme>
+         <SearchBarContainer display="flex" alignItems="center" justifyContent="space-between" backgroundColor="red">
+            <SearchInput />
+            <SearchIcon>
+               <EvilIcons name="search" />
+            </SearchIcon>
+         </SearchBarContainer>
          <MovieInformationContainer>
             <IconButton top={10} zIndex={100} right={10} onPress={goBackHandler}>
                <AntDesign color={theme.colors.text.primaryLight} name="close" />
@@ -65,25 +73,27 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                         <Text fontWeight={700} fontSize={theme.sizes.fontSize['text-3xl']}>
                            {movieDetails.title}
                         </Text>
-                        <Box position="top" margin={true} size={theme.sizes.spacing.md}>
-                           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                              {movieDetails?.genres.map((item) => (
-                                 <Box
-                                    key={uuid.v4().toString()}
-                                    margin={true}
-                                    position="right"
-                                    size={theme.sizes.spacing.sm}
-                                 >
-                                    <Chip>
-                                       <ChipText fontSize={theme.sizes.fontSize['text-lg']} heading={item.name} />
-                                    </Chip>
+                        {movieDetails?.genres.length ? (
+                           <Box position="top" margin={true} size={theme.sizes.spacing.md}>
+                              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                 {movieDetails?.genres.map((item) => (
+                                    <Box
+                                       key={uuid.v4().toString()}
+                                       margin={true}
+                                       position="right"
+                                       size={theme.sizes.spacing.sm}
+                                    >
+                                       <Chip>
+                                          <ChipText fontSize={theme.sizes.fontSize['text-lg']} heading={item.name} />
+                                       </Chip>
+                                    </Box>
+                                 ))}
+                                 <Box margin={true} position="right" size={theme.sizes.spacing.sm}>
+                                    <MaterialIcons size={22} color={'white'} name="hdr-on" />
                                  </Box>
-                              ))}
-                              <Box margin={true} position="right" size={theme.sizes.spacing.sm}>
-                                 <MaterialIcons size={22} color={'white'} name="hdr-on" />
-                              </Box>
-                           </ScrollView>
-                        </Box>
+                              </ScrollView>
+                           </Box>
+                        ) : null}
                         <Box position="top" margin={true} size={theme.sizes.spacing.md}>
                            <StyledButton
                               icon={() => (
@@ -100,23 +110,25 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                               </Text>
                            </StyledButton>
                         </Box>
-                        <Box
-                           display="flex"
-                           alignItems="center"
-                           flexDirection="row"
-                           position="top"
-                           margin={true}
-                           size={theme.sizes.spacing.md}
-                        >
-                           <Entypo color={theme.colors.ui.disabled} name="dot-single" />
-                           <Text
-                              fontWeight={400}
-                              fontSize={theme.sizes.fontSize['text-xl']}
-                              color={theme.colors.ui.disabled}
+                        {movieDetails?.tagline ? (
+                           <Box
+                              display="flex"
+                              alignItems="center"
+                              flexDirection="row"
+                              position="top"
+                              margin={true}
+                              size={theme.sizes.spacing.md}
                            >
-                              {movieDetails.tagline}
-                           </Text>
-                        </Box>
+                              <Entypo color={theme.colors.ui.disabled} name="dot-single" />
+                              <Text
+                                 fontWeight={400}
+                                 fontSize={theme.sizes.fontSize['text-xl']}
+                                 color={theme.colors.ui.disabled}
+                              >
+                                 {movieDetails.tagline}
+                              </Text>
+                           </Box>
+                        ) : null}
                         <Box position="top" margin={true} size={theme.sizes.spacing.md}>
                            <Card
                               position="all"
@@ -124,22 +136,33 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                               padding={true}
                               backgroundColor={theme.colors.ui.primary}
                            >
-                              <Box
-                                 display="flex"
-                                 alignItems="center"
-                                 flexDirection="row"
-                                 position="bottom"
-                                 margin={true}
-                                 size={theme.sizes.spacing.md}
-                              >
-                                 <Text fontWeight={600} fontSize={theme.sizes.fontSize['text-xl']}>
-                                    {movieDetails.status}
+                              {movieDetails?.status ? (
+                                 <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    flexDirection="row"
+                                    position="bottom"
+                                    margin={true}
+                                    size={theme.sizes.spacing.md}
+                                 >
+                                    <Text fontWeight={600} fontSize={theme.sizes.fontSize['text-xl']}>
+                                       {movieDetails.status}
+                                    </Text>
+                                    <Entypo color={theme.colors.ui.disabled} name="dot-single" />
+                                 </Box>
+                              ) : null}
+                              <Box display="flex" gap="7px">
+                                 <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']}>
+                                    {movieDetails.overview}
                                  </Text>
-                                 <Entypo color={theme.colors.ui.disabled} name="dot-single" />
+                                 <Text
+                                    color={theme.colors.ui.disabled}
+                                    fontWeight={300}
+                                    fontSize={theme.sizes.fontSize['text-lg']}
+                                 >
+                                    {movieDetails.original_title}
+                                 </Text>
                               </Box>
-                              <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']}>
-                                 {movieDetails.overview}
-                              </Text>
                            </Card>
                         </Box>
                      </Box>

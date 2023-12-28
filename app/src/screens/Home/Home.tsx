@@ -7,7 +7,7 @@ import {
    useGetTopRatedMoviesQuery,
    useGetUpcomingMoviesQuery,
 } from '../../state/features/movies/movies.apiSlice';
-import MoviesScrollView from './components/MoviesScrollView/MoviesScrollView';
+import MoviesScrollView from '../../components/MoviesScrollView/MoviesScrollView';
 import NavMenu from '../../components/NavMenu/NavMenu';
 
 const Home = () => {

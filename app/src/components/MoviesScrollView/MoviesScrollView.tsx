@@ -1,16 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { appRoutes } from '../../../../../App.Route';
-import Box from '../../../../components/Box/Box';
-import { Card, CardContent, CardImage, Text } from '../../../../components/Card/Card';
-import { ViewWithSidePadding } from '../../../../components/Container/Container';
-import { HeadingContainer, HeadingText, ShowAllButton } from '../../../../components/Heading/Heading';
-import { Spinner, SpinnerContainer } from '../../../../components/Spinner/Spinner';
-import { theme } from '../../../../infrastructure/styleComponentTheme';
-import { GetMoviesInterface } from '../../../../state/features/movies';
-import { getPosterImage } from '../../../../utils/helper';
-import { StackNavigation } from '../../../../shared/types';
+import { appRoutes } from '../../../App.Route';
+import Box from '../Box/Box';
+import { Card, CardContent, CardImage, Text } from '../Card/Card';
+import { ViewWithSidePadding } from '../Container/Container';
+import { HeadingContainer, HeadingText, ShowAllButton } from '../Heading/Heading';
+import { Spinner, SpinnerContainer } from '../Spinner/Spinner';
+import { theme } from '../../infrastructure/styleComponentTheme';
+import { GetMoviesInterface } from '../../state/features/movies';
+import { getPosterImage } from '../../utils/helper';
+import { StackNavigation } from '../../shared/types';
 
 export interface MoviesScrollViewProps {
    isLoading: boolean;
