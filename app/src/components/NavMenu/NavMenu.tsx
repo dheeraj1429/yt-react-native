@@ -5,16 +5,32 @@ import { theme } from '../../infrastructure/styleComponentTheme';
 import Box from '../Box/Box';
 import { ViewWithSidePadding } from '../Container/Container';
 import { TouchableOpacity } from 'react-native';
+import { SearchBarContainer, SearchIcon, SearchInput } from '../SearchBar/SearchBar';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const NavMenu = () => {
    return (
       <ViewWithSidePadding>
          <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
             <TouchableOpacity>
-               <FontAwesome6 size={theme.sizes.fontSize['text-2xl']} name="bars-staggered" color={theme.colors.bg.secondary} />
+               <FontAwesome6
+                  size={theme.sizes.fontSize['text-2xl']}
+                  name="bars-staggered"
+                  color={theme.colors.bg.secondary}
+               />
             </TouchableOpacity>
+            <SearchBarContainer backgroundColor={theme.colors.ui.primary} width={300}>
+               <SearchIcon>
+                  <AntDesign color={theme.colors.ui.tertiary} name="search1" />
+               </SearchIcon>
+               <SearchInput placeholder="Search movies" />
+            </SearchBarContainer>
             <TouchableOpacity>
-               <Entypo size={theme.sizes.fontSize['text-2xl']} name="dots-three-horizontal" color={theme.colors.bg.secondary} />
+               <Entypo
+                  size={theme.sizes.fontSize['text-2xl']}
+                  name="dots-three-horizontal"
+                  color={theme.colors.bg.secondary}
+               />
             </TouchableOpacity>
          </Box>
       </ViewWithSidePadding>

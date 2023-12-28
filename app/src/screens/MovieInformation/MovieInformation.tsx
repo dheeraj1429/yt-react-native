@@ -16,8 +16,6 @@ import { NavigationPropType } from '../../shared/types';
 import { useLazyGetSingleMovieDetailsQuery } from '../../state/features/movies/movies.apiSlice';
 import { getPosterImage } from '../../utils/helper';
 import { MovieInformationContainer, StyledButton } from './MovieInformation.style';
-import { SearchBarContainer, SearchInput, SearchIcon } from '../../components/SearchBar/SearchBar';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 interface RouteParams {
    movieId?: string;
@@ -40,15 +38,9 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
 
    return (
       <ScrollViewWithTheme>
-         <SearchBarContainer display="flex" alignItems="center" justifyContent="space-between" backgroundColor="red">
-            <SearchInput />
-            <SearchIcon>
-               <EvilIcons name="search" />
-            </SearchIcon>
-         </SearchBarContainer>
          <MovieInformationContainer>
             <IconButton top={10} zIndex={100} right={10} onPress={goBackHandler}>
-               <AntDesign color={theme.colors.text.primaryLight} name="close" />
+               <AntDesign color={'#fff'} name="close" />
             </IconButton>
             {movieDetailsIsLoading ? (
                <SpinnerContainer>

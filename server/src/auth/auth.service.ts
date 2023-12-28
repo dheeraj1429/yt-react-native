@@ -17,7 +17,10 @@ import { Auth } from './schemas/auth.schema';
 
 @Injectable()
 export class AuthService {
-   constructor(@InjectModel(Auth.name) private authModel: Model<Auth>, private readonly jwtTokenService: JwtTokenService) {}
+   constructor(
+      @InjectModel(Auth.name) private authModel: Model<Auth>,
+      private readonly jwtTokenService: JwtTokenService,
+   ) {}
 
    async register(body: RegisterDto): Promise<UserResponseInterface> {
       const { email, password, name, avatar } = body;
