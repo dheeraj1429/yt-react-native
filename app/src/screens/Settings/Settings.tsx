@@ -15,7 +15,13 @@ import { NavigationPropType } from '../../shared/types';
 
 const SettingsAr: Array<MenuItemInterface> = [
    {
-      icon: <Ionicons size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="notifications" />,
+      icon: (
+         <Ionicons
+            size={theme.sizes.fontSize['text-3xl']}
+            color={theme.colors.text.primaryLight}
+            name="notifications"
+         />
+      ),
       children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
       id: uuid.v4().toString(),
    },
@@ -35,7 +41,9 @@ const SettingsAr: Array<MenuItemInterface> = [
       id: uuid.v4().toString(),
    },
    {
-      icon: <AntDesign size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="infocirlce" />,
+      icon: (
+         <AntDesign size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="infocirlce" />
+      ),
       children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Account</Text>,
       id: uuid.v4().toString(),
    },
@@ -53,18 +61,23 @@ const Settings = ({ navigation }: NavigationPropType) => {
             <SettingContainer>
                <Text>Settings</Text>
             </SettingContainer>
-            <Box position="top" margin={true} size={theme.sizes.spacing['2xl']}>
+            <Box margin={{ top: theme.sizes.spacing['2xl'] }}>
                {SettingsAr.map((item) => (
-                  <Box key={item.id} position="bottom" margin={true} size={theme.sizes.spacing.md}>
+                  <Box key={item.id} margin={{ bottom: theme.sizes.spacing.md }}>
                      <MenuItem icon={item.icon}>{item.children}</MenuItem>
                   </Box>
                ))}
             </Box>
-            <Box display="flex" alignItems="center" justifyContent="center" margin={true} size={theme.sizes.spacing['2xl']} position="top">
+            <Box
+               display="flex"
+               alignItems="center"
+               justifyContent="center"
+               margin={{ top: theme.sizes.spacing['2xl'] }}
+            >
                <TouchableOpacity onPress={logOut}>
                   <Text fontSize={theme.sizes.fontSize['text-2xl']}>Sign Out</Text>
                </TouchableOpacity>
-               <Box margin={true} position="top" size={theme.sizes.spacing.sm}>
+               <Box margin={{ top: theme.sizes.spacing.sm }}>
                   <Text color={theme.colors.ui.secondary} fontSize={theme.sizes.fontSize['text-lg']}>
                      v 0.0.1
                   </Text>

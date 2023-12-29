@@ -28,7 +28,7 @@ const MoviesScrollView = ({ isLoading, data, heading, showAll }: MoviesScrollVie
 
    return (
       <ViewWithSidePadding>
-         <Box position="bottom" size={theme.sizes.spacing.xl} margin={true}>
+         <Box margin={{ bottom: theme.sizes.spacing.xl }}>
             {isLoading ? (
                <SpinnerContainer>
                   <Spinner />
@@ -42,26 +42,27 @@ const MoviesScrollView = ({ isLoading, data, heading, showAll }: MoviesScrollVie
                   </HeadingContainer>
                   <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                      {data.results.map((item) => (
-                        <Box key={item.id.toString()} position="top" size={theme.sizes.spacing.lg} margin={true}>
-                           <Box position="right" size={theme.sizes.spacing.sm} margin={true}>
-                              <TouchableOpacity onPress={() => singlePageRouteHandler(item.id)}>
-                                 <Card customWidth={'140px'} gap={theme.sizes.spacing.md}>
-                                    <CardImage
-                                       source={{
-                                          uri: getPosterImage(item.poster_path),
-                                       }}
-                                       resizeMode="cover"
-                                       radius={'7px'}
-                                       customHeight={'190px'}
-                                    />
-                                    <CardContent>
-                                       <Text length={16} fontSize={theme.sizes.fontSize['text-lg']}>
-                                          {item.title.length >= 15 ? `${item.title.slice(0, 15)}...` : item.title}
-                                       </Text>
-                                    </CardContent>
-                                 </Card>
-                              </TouchableOpacity>
-                           </Box>
+                        <Box
+                           margin={{ top: theme.sizes.spacing.lg, right: theme.sizes.spacing.sm }}
+                           key={item.id.toString()}
+                        >
+                           <TouchableOpacity onPress={() => singlePageRouteHandler(item.id)}>
+                              <Card customWidth={'140px'} gap={theme.sizes.spacing.md}>
+                                 <CardImage
+                                    source={{
+                                       uri: getPosterImage(item.poster_path),
+                                    }}
+                                    resizeMode="cover"
+                                    radius={'7px'}
+                                    customHeight={'190px'}
+                                 />
+                                 <CardContent>
+                                    <Text length={16} fontSize={theme.sizes.fontSize['text-lg']}>
+                                       {item.title.length >= 15 ? `${item.title.slice(0, 15)}...` : item.title}
+                                    </Text>
+                                 </CardContent>
+                              </Card>
+                           </TouchableOpacity>
                         </Box>
                      ))}
                   </ScrollView>

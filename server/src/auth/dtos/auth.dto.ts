@@ -12,7 +12,7 @@ export class UserCredentialsDto {
    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
       message: 'password too weak',
    })
-   password: string;
+   readonly password: string;
 }
 
 export class RegisterDto extends UserCredentialsDto {

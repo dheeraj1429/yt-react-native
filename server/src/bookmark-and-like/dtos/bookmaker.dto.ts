@@ -5,11 +5,11 @@ export class UserAndMovieDto {
    @IsNotEmpty()
    @IsString()
    @IsMongoId()
-   userId: Types.ObjectId;
+   readonly userId: Types.ObjectId;
 
    @IsNotEmpty()
    @IsString()
-   movieId: string;
+   readonly movieId: string;
 }
 
 export class BookmarkDto extends UserAndMovieDto {}

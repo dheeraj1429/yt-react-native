@@ -21,7 +21,7 @@ export interface ErrorInterface extends ErrorStyleInterface {
 export const ErrorView = ({ messages }: { messages: Array<string> | string }) => {
    return Array.isArray(messages) ? (
       messages.map((item) => (
-         <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
+         <Box margin={{ bottom: theme.sizes.spacing.lg }}>
             <Error key={item} severity="error">
                <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']}>
                   {item}

@@ -1,12 +1,14 @@
 import styled from 'styled-components/native';
-import { getMarginStyle, getPaddingStyle } from '../../utils/helper';
-import { BoxProps } from './Box';
+import { View } from 'react-native';
+import { getSpaceStyle } from '../../utils/helper';
+import { BoxProps } from '.';
 
-export const BoxContainer = styled.View<BoxProps>`
-   ${({ position, size, padding, margin }) => `
-     ${!!margin ? getMarginStyle(position, size) : 'margin: 0px;'}
-     ${!!padding ? getPaddingStyle(position, size) : 'padding: 0px;'}
- `};
+export const BoxContainer = styled(View)<BoxProps>`
+   ${({ backgroundColor, padding, margin }) => `
+      ${!!margin ? getSpaceStyle({ ...margin, PrType: 'margin' }) : 'margin: 0px;'}
+      ${!!padding ? getSpaceStyle({ ...padding, PrType: 'padding' }) : 'padding: 0px;'}
+      ${!!backgroundColor ? `background-color: ${backgroundColor};` : 'background-color: transparent;'}
+   `};
    ${(props) => props.display && `display: ${props.display}`};
    ${(props) => props.alignItems && `align-items: ${props.alignItems}`};
    ${(props) => props.justifyContent && `justify-content: ${props.justifyContent}`};

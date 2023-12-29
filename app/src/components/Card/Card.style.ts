@@ -1,13 +1,14 @@
 import { Image, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { CardContainerInterface, CardContentContainer, CardHeadingTextStyle, CardImageStyleInterface } from '.';
-import { getMarginStyle, getPaddingStyle } from '../../utils/helper';
+import { getSpaceStyle } from '../../utils/helper';
 
 export const CardContainer = styled(View)<CardContainerInterface>`
-   ${({ position, size, padding, margin }) => `
-     ${!!margin ? getMarginStyle(position, size) : 'margin: 0px;'}
-     ${!!padding ? getPaddingStyle(position, size) : 'padding: 0px;'}
- `};
+   ${({ backgroundColor, padding, margin }) => `
+      ${!!margin ? getSpaceStyle({ ...margin, PrType: 'margin' }) : 'margin: 0px;'}
+      ${!!padding ? getSpaceStyle({ ...padding, PrType: 'padding' }) : 'padding: 0px;'}
+      ${!!backgroundColor ? `background-color: ${backgroundColor};` : 'background-color: transparent;'}
+   `};
    display: ${(props) => (props.display ? props.display : 'block')};
    flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
    gap: ${(props) => (props.gap ? `${props.gap}px` : 'auto')};

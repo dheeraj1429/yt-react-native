@@ -23,7 +23,12 @@ interface LoginInterface {
 }
 
 const schema = yup.object().shape({
-   email: yup.string().email().required('Please enter your email').lowercase().typeError('Please enter a valid email address'),
+   email: yup
+      .string()
+      .email()
+      .required('Please enter your email')
+      .lowercase()
+      .typeError('Please enter a valid email address'),
    password: yup
       .string()
       .required()
@@ -52,8 +57,10 @@ const Login = ({ navigation }: NavigationPropType) => {
       context: { isSignUpUser },
    });
    const [singIn, { isLoading: singInLoading, isSuccess: singInSuccess, error: signInError }] = useSignInMutation();
-   const [register, { isLoading: registerLoading, isSuccess: registerSuccess, error: registerError }] = useRegisterMutation();
-   const authenticationError: ApiErrorResponseInterface | undefined = (signInError || registerError) as ApiErrorResponseInterface;
+   const [register, { isLoading: registerLoading, isSuccess: registerSuccess, error: registerError }] =
+      useRegisterMutation();
+   const authenticationError: ApiErrorResponseInterface | undefined = (signInError ||
+      registerError) as ApiErrorResponseInterface;
 
    const isLoginExistInCache = async function () {
       setShowLoading(true);
@@ -93,24 +100,24 @@ const Login = ({ navigation }: NavigationPropType) => {
                      <Card customWidth={'80px'} customHeight={'100px'}>
                         <CardImage source={require('../../../public/images/pngwing.com.png')} />
                      </Card>
-                     <Box position="top-bottom" size={theme.sizes.spacing.lg} margin={true}>
+                     <Box margin={{ direction: { position: 'top-bottom', size: theme.sizes.spacing.lg } }}>
                         <Text color={theme.colors.ui.disabled} fontSize={theme.sizes.fontSize['text-2xl']}>
                            Enjoy the world of entertainment
                         </Text>
                      </Box>
                   </Box>
                   {showLoading ? (
-                     <Box position="top" margin={true} size={theme.sizes.spacing['2xl']}>
+                     <Box margin={{ top: theme.sizes.spacing['2xl'] }}>
                         <ActivityIndicator />
                      </Box>
                   ) : (
-                     <Box position="top-bottom" margin={true} size={theme.sizes.spacing['xl']}>
-                        <Box position="bottom" margin={true} size={theme.sizes.spacing['lg']}>
+                     <Box margin={{ direction: { position: 'top-bottom', size: theme.sizes.spacing['xl'] } }}>
+                        <Box margin={{ bottom: theme.sizes.spacing['lg'] }}>
                            <Text fontSize={theme.sizes.fontSize['text-6xl']} color={theme.colors.text.primaryLight}>
                               {isSignUpUser ? 'Log In' : 'Sign In'}
                            </Text>
                         </Box>
-                        <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
+                        <Box margin={{ bottom: theme.sizes.spacing.lg }}>
                            <Controller
                               name="email"
                               control={control}
@@ -126,9 +133,11 @@ const Login = ({ navigation }: NavigationPropType) => {
                                  />
                               )}
                            />
-                           {errors?.email?.message ? <HelperText type="error">{errors.email.message}</HelperText> : null}
+                           {errors?.email?.message ? (
+                              <HelperText type="error">{errors.email.message}</HelperText>
+                           ) : null}
                         </Box>
-                        <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
+                        <Box margin={{ bottom: theme.sizes.spacing.lg }}>
                            <Controller
                               name="password"
                               control={control}
@@ -143,7 +152,10 @@ const Login = ({ navigation }: NavigationPropType) => {
                                        <TextInput.Icon
                                           onPress={() => setSecureTextPasswordShow(!secureTextPasswordShow)}
                                           icon={() => (
-                                             <Entypo color={theme.colors.ui.secondary} name={secureTextPasswordShow ? 'eye' : 'eye-with-line'} />
+                                             <Entypo
+                                                color={theme.colors.ui.secondary}
+                                                name={secureTextPasswordShow ? 'eye' : 'eye-with-line'}
+                                             />
                                           )}
                                        />
                                     }
@@ -153,10 +165,12 @@ const Login = ({ navigation }: NavigationPropType) => {
                                  />
                               )}
                            />
-                           {errors?.password?.message ? <HelperText type="error">{errors.password.message}</HelperText> : null}
+                           {errors?.password?.message ? (
+                              <HelperText type="error">{errors.password.message}</HelperText>
+                           ) : null}
                         </Box>
                         {isSignUpUser ? (
-                           <Box position="bottom" margin={true} size={theme.sizes.spacing.lg}>
+                           <Box margin={{ bottom: theme.sizes.spacing.lg }}>
                               <Controller
                                  name="confirmPassword"
                                  control={control}
@@ -169,7 +183,9 @@ const Login = ({ navigation }: NavigationPropType) => {
                                        autoCorrect={false}
                                        right={
                                           <TextInput.Icon
-                                             onPress={() => setSecureTextConfirmPasswordShow(!secureTextConfirmPasswordShow)}
+                                             onPress={() =>
+                                                setSecureTextConfirmPasswordShow(!secureTextConfirmPasswordShow)
+                                             }
                                              icon={() => (
                                                 <Entypo
                                                    color={theme.colors.ui.secondary}
@@ -184,10 +200,12 @@ const Login = ({ navigation }: NavigationPropType) => {
                                     />
                                  )}
                               />
-                              {errors?.confirmPassword?.message ? <HelperText type="error">{errors.confirmPassword.message}</HelperText> : null}
+                              {errors?.confirmPassword?.message ? (
+                                 <HelperText type="error">{errors.confirmPassword.message}</HelperText>
+                              ) : null}
                            </Box>
                         ) : null}
-                        <Box margin={true} position="top" size={theme.sizes.spacing['xl']}>
+                        <Box margin={{ top: theme.sizes.spacing['xl'] }}>
                            <Button
                               style={{ borderRadius: 5 }}
                               uppercase={true}
@@ -203,11 +221,17 @@ const Login = ({ navigation }: NavigationPropType) => {
                      </Box>
                   )}
 
-                  {!!authenticationError && authenticationError?.data ? <ErrorView messages={authenticationError.data?.message} /> : null}
+                  {!!authenticationError && authenticationError?.data ? (
+                     <ErrorView messages={authenticationError.data?.message} />
+                  ) : null}
                </LoginContentContainer>
                <LoginExtraOptionsContainer>
                   <Box gap={'3px'} display="flex" flexDirection="row" alignItems="center">
-                     <Text fontWeight={500} color={theme.colors.ui.secondary} fontSize={theme.sizes.fontSize['text-2xl']}>
+                     <Text
+                        fontWeight={500}
+                        color={theme.colors.ui.secondary}
+                        fontSize={theme.sizes.fontSize['text-2xl']}
+                     >
                         New to netflix?
                      </Text>
                      <TouchableOpacity onPress={changeFormHandler}>

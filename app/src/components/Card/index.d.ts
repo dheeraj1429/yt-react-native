@@ -1,9 +1,9 @@
 import React from 'react';
 import { ImageProps, TextProps, ViewProps } from 'react-native';
 import { DisplayType, FlexDirectionType, WidthAndHeightInterface } from '../../shared/types';
-import { SpaceProps } from '../Box/Box';
+import { BoxProps } from '../Box';
 
-export interface CardContainerInterface extends WidthAndHeightInterface, SpaceProps {
+export interface CardContainerInterface extends WidthAndHeightInterface, BoxProps {
    display?: DisplayType;
    flexDirection?: FlexDirectionType;
    gap?: number;

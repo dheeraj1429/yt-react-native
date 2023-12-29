@@ -16,6 +16,7 @@ import { NavigationPropType } from '../../shared/types';
 import { useLazyGetSingleMovieDetailsQuery } from '../../state/features/movies/movies.apiSlice';
 import { getPosterImage } from '../../utils/helper';
 import { MovieInformationContainer, StyledButton } from './MovieInformation.style';
+import SocialHub from './components/SocialHub/SocialHub';
 
 interface RouteParams {
    movieId?: string;
@@ -61,32 +62,28 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                      />
                   </Card>
                   <ViewWithSidePadding>
-                     <Box padding={true} position="top-bottom" size={theme.sizes.spacing.md}>
+                     <Box padding={{ direction: { position: 'top-bottom', size: theme.sizes.spacing.md } }}>
+                        {movieId ? <SocialHub movieId={movieId} /> : null}
                         <Text fontWeight={700} fontSize={theme.sizes.fontSize['text-3xl']}>
                            {movieDetails.title}
                         </Text>
                         {movieDetails?.genres.length ? (
-                           <Box position="top" margin={true} size={theme.sizes.spacing.md}>
+                           <Box margin={{ top: theme.sizes.spacing.md }}>
                               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                  {movieDetails?.genres.map((item) => (
-                                    <Box
-                                       key={uuid.v4().toString()}
-                                       margin={true}
-                                       position="right"
-                                       size={theme.sizes.spacing.sm}
-                                    >
+                                    <Box key={uuid.v4().toString()} margin={{ right: theme.sizes.spacing.sm }}>
                                        <Chip>
                                           <ChipText fontSize={theme.sizes.fontSize['text-lg']} heading={item.name} />
                                        </Chip>
                                     </Box>
                                  ))}
-                                 <Box margin={true} position="right" size={theme.sizes.spacing.sm}>
+                                 <Box margin={{ right: theme.sizes.spacing.sm }}>
                                     <MaterialIcons size={22} color={'white'} name="hdr-on" />
                                  </Box>
                               </ScrollView>
                            </Box>
                         ) : null}
-                        <Box position="top" margin={true} size={theme.sizes.spacing.md}>
+                        <Box margin={{ top: theme.sizes.spacing.md }}>
                            <StyledButton
                               icon={() => (
                                  <FontAwesome5
@@ -107,9 +104,7 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                               display="flex"
                               alignItems="center"
                               flexDirection="row"
-                              position="top"
-                              margin={true}
-                              size={theme.sizes.spacing.md}
+                              margin={{ top: theme.sizes.spacing.md }}
                            >
                               <Entypo color={theme.colors.ui.disabled} name="dot-single" />
                               <Text
@@ -121,11 +116,9 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                               </Text>
                            </Box>
                         ) : null}
-                        <Box position="top" margin={true} size={theme.sizes.spacing.md}>
+                        <Box margin={{ top: theme.sizes.spacing.md }}>
                            <Card
-                              position="all"
-                              size={theme.sizes.spacing.md}
-                              padding={true}
+                              padding={{ direction: { position: 'all', size: theme.sizes.spacing.md } }}
                               backgroundColor={theme.colors.ui.primary}
                            >
                               {movieDetails?.status ? (
@@ -133,9 +126,7 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                                     display="flex"
                                     alignItems="center"
                                     flexDirection="row"
-                                    position="bottom"
-                                    margin={true}
-                                    size={theme.sizes.spacing.md}
+                                    margin={{ bottom: theme.sizes.spacing.md }}
                                  >
                                     <Text fontWeight={600} fontSize={theme.sizes.fontSize['text-xl']}>
                                        {movieDetails.status}
