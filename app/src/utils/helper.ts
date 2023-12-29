@@ -1,4 +1,6 @@
 import { Spacing } from '../shared/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserResponseInterface } from '../state/features/auth';
 
 export const addApiKeyWithRequest = function (apiUri: string, otherParameters?: Object) {
    let apiUrl = apiUri.endsWith('/') ? apiUri.slice(0, -1) : apiUri;
@@ -44,4 +46,9 @@ export const getSpaceStyle = ({ top, bottom, left, right, direction, PrType }: S
    ];
 
    return styles.filter(Boolean).join(' ');
+};
+
+export const checkUserIsLoggedIn = async () => {
+   const user = await AsyncStorage.getItem('user');
+   return user ? (JSON.parse(user) as UserResponseInterface) : null;
 };

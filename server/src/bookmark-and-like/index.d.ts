@@ -1,8 +1,12 @@
 import { ApiResponseInterface } from 'src/shared/types';
 
-export interface BookmarkMoviesResponse extends ApiResponseInterface {
+export interface likeAndBookmarkResponse {
    movieId: string;
+   add: boolean;
 }
-export interface LikeMoviesResponse extends ApiResponseInterface {
+export interface BookmarkMoviesResponse extends ApiResponseInterface, likeAndBookmarkResponse {}
+export interface LikeMoviesResponse extends ApiResponseInterface, likeAndBookmarkResponse {}
+export interface MovieLikeStatusResponse extends ApiResponseInterface {
    movieId: string;
+   liked: boolean;
 }

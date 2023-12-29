@@ -14,3 +14,4 @@ export class UserAndMovieDto {
 
 export class BookmarkDto extends UserAndMovieDto {}
 export class LikeDto extends UserAndMovieDto {}
+export class MovieLikeStatusDto extends UserAndMovieDto {}

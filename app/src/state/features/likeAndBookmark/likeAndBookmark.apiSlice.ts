@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { LikeMovieInterface, LikeMoviesPayload } from '.';
+import { LikeMovieInterface, LikeMoviesPayload, MovieLikeStatusPayload, MovieLikeStatusResponse } from '.';
 
 const tagTypesObject = {
    addToLike: 'addToLike',
+   movieLikeStatus: 'movieLikeStatus',
 };
 
 export const likeAndBookmark = createApi({
@@ -19,7 +20,13 @@ export const likeAndBookmark = createApi({
             body,
          }),
       }),
+      movieLikeStatus: builder.query<MovieLikeStatusResponse, MovieLikeStatusPayload>({
+         query: ({ userId, movieId }) => ({
+            url: `/bookmark-and-like/movie-like-status?userId=${userId}&movieId=${movieId}`,
+         }),
+         providesTags: [tagTypesObject.movieLikeStatus],
+      }),
    }),
 });
 
-export const { useLikeMoviesMutation } = likeAndBookmark;
+export const { useLikeMoviesMutation, useLazyMovieLikeStatusQuery } = likeAndBookmark;

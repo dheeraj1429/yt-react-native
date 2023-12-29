@@ -1,14 +1,10 @@
 import { Image, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { CardContainerInterface, CardContentContainer, CardHeadingTextStyle, CardImageStyleInterface } from '.';
-import { getSpaceStyle } from '../../utils/helper';
+import { BoxSpacingFunction } from '../Box/Box.style';
 
 export const CardContainer = styled(View)<CardContainerInterface>`
-   ${({ backgroundColor, padding, margin }) => `
-      ${!!margin ? getSpaceStyle({ ...margin, PrType: 'margin' }) : 'margin: 0px;'}
-      ${!!padding ? getSpaceStyle({ ...padding, PrType: 'padding' }) : 'padding: 0px;'}
-      ${!!backgroundColor ? `background-color: ${backgroundColor};` : 'background-color: transparent;'}
-   `};
+   ${({ padding, margin }) => BoxSpacingFunction({ padding, margin })};
    display: ${(props) => (props.display ? props.display : 'block')};
    flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
    gap: ${(props) => (props.gap ? `${props.gap}px` : 'auto')};

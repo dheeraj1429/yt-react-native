@@ -2,8 +2,8 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Bookmark } from './schemas/bookmark.schema';
 import { Model, Types } from 'mongoose';
-import { BookmarkDto, LikeDto } from './dtos/bookmaker.dto';
-import { BookmarkMoviesResponse, LikeMoviesResponse } from '.';
+import { BookmarkDto, LikeDto, MovieLikeStatusDto } from './dtos/bookmaker.dto';
+import { BookmarkMoviesResponse, LikeMoviesResponse, MovieLikeStatusResponse } from '.';
 import { Like } from './schemas/like.schema';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class BookmarkAndLikeService {
          }).save();
 
          if (addNewUserIntoBookmark) {
-            return { movieId, success: true, message: 'Movie added in bookmark', error: false };
+            return { add: true, movieId, success: true, message: 'Movie added in bookmark', error: false };
          }
          throw new InternalServerErrorException();
       }
@@ -41,7 +41,13 @@ export class BookmarkAndLikeService {
             { $pull: { bookmarkMovies: { movieId } } },
          );
          if (removeMovieFromBookmarked.modifiedCount) {
-            return { movieId, success: true, error: false, message: 'Movie removed successfully from bookmark' };
+            return {
+               add: false,
+               movieId,
+               success: true,
+               error: false,
+               message: 'Movie removed successfully from bookmark',
+            };
          }
          throw new InternalServerErrorException();
       } else {
@@ -50,10 +56,24 @@ export class BookmarkAndLikeService {
             { $push: { bookmarkMovies: { movieId } } },
          );
          if (bookmarkedMovie.modifiedCount) {
-            return { movieId, success: true, error: false, message: 'Movie added successfully' };
+            return { add: true, movieId, success: true, error: false, message: 'Movie added successfully' };
          }
          throw new InternalServerErrorException();
       }
+   }
+
+   async movieLikeStatus(query: MovieLikeStatusDto): Promise<MovieLikeStatusResponse> {
+      const { userId, movieId } = query;
+      const userObjectId = new Types.ObjectId(userId);
+      const isUserAlreadyExists = await this.likeModel.findOne({ userId: userObjectId }, { userId: 1 });
+
+      if (!isUserAlreadyExists) return { success: true, error: false, movieId, liked: false };
+      const checkMovieAlreadyLiked = await this.likeModel.findOne(
+         { userId: userObjectId, likedMovies: { $elemMatch: { movieId } } },
+         { 'likedMovies.$': 1 },
+      );
+      if (checkMovieAlreadyLiked) return { success: true, error: false, movieId, liked: true };
+      return { success: true, error: false, movieId, liked: false };
    }
 
    async likeMovies(body: LikeDto): Promise<LikeMoviesResponse> {
@@ -67,23 +87,29 @@ export class BookmarkAndLikeService {
          }).save();
 
          if (addNewUserIntoLikeDocument) {
-            return { movieId, success: true, message: 'Movie added in like document', error: false };
+            return { add: true, movieId, success: true, message: 'Movie added in like document', error: false };
          }
          throw new InternalServerErrorException();
       }
 
-      const checkMovieAlreadyLikeDocument = await this.likeModel.findOne(
+      const checkMovieAlreadyLiked = await this.likeModel.findOne(
          { userId: userObjectId, likedMovies: { $elemMatch: { movieId } } },
          { 'likedMovies.$': 1 },
       );
 
-      if (checkMovieAlreadyLikeDocument) {
+      if (checkMovieAlreadyLiked) {
          const removeMovieFromLikeDocument = await this.likeModel.updateOne(
             { userId: userObjectId, likedMovies: { $elemMatch: { movieId } } },
             { $pull: { likedMovies: { movieId } } },
          );
          if (removeMovieFromLikeDocument.modifiedCount) {
-            return { movieId, success: true, error: false, message: 'Movie removed successfully from like document' };
+            return {
+               add: false,
+               movieId,
+               success: true,
+               error: false,
+               message: 'Movie removed successfully from like document',
+            };
          }
          throw new InternalServerErrorException();
       } else {
@@ -92,7 +118,7 @@ export class BookmarkAndLikeService {
             { $push: { likedMovies: { movieId } } },
          );
          if (likedMovie.modifiedCount) {
-            return { movieId, success: true, error: false, message: 'Movie added successfully' };
+            return { add: true, movieId, success: true, error: false, message: 'Movie added successfully' };
          }
          throw new InternalServerErrorException();
       }

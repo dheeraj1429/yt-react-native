@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BoxProps } from '.';
 import { BoxContainer } from './Box.style';
 
-const Box1 = forwardRef<View, BoxProps>(({ children, ...props }, ref) => {
+const Box = forwardRef<View, BoxProps>(({ children, ...props }, ref) => {
    return (
       <BoxContainer ref={ref} {...props}>
          {children}
@@ -11,4 +11,4 @@ const Box1 = forwardRef<View, BoxProps>(({ children, ...props }, ref) => {
    );
 });
 
-export default Box1;
+export default Box;
