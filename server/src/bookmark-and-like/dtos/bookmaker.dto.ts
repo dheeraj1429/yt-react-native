@@ -1,7 +1,7 @@
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import { Types } from 'mongoose';
 
-export class BookmarkDto {
+export class UserAndMovieDto {
    @IsNotEmpty()
    @IsString()
    @IsMongoId()
@@ -11,3 +11,6 @@ export class BookmarkDto {
    @IsString()
    movieId: string;
 }
+
+export class BookmarkDto extends UserAndMovieDto {}
+export class LikeDto extends UserAndMovieDto {}
