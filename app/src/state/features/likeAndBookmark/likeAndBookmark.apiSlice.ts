@@ -27,6 +27,7 @@ export const likeAndBookmark = createApi({
             method: 'POST',
             body,
          }),
+         invalidatesTags: [likeAndBookmarkTagTypesObject.getLikedMoviesTag],
       }),
       movieLikeStatus: builder.query<MovieLikeStatusResponse, MovieLikeStatusPayload>({
          query: ({ userId, movieId }) => ({
@@ -46,18 +47,18 @@ export const likeAndBookmark = createApi({
             }
             return newQueryArgs;
          },
-         merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
-            if (currentCache) {
-               return {
-                  ...currentCache,
-                  page: newData.page,
-                  total_pages: newData.total_pages,
-                  total_results: newData.total_results,
-                  likedMovies: [...currentCache.likedMovies, ...newData.likedMovies],
-               };
-            }
-            return newData;
-         },
+         // merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
+         //    if (currentCache) {
+         //       return {
+         //          ...currentCache,
+         //          page: newData.page,
+         //          total_pages: newData.total_pages,
+         //          total_results: newData.total_results,
+         //          likedMovies: [...currentCache.likedMovies, ...newData.likedMovies],
+         //       };
+         //    }
+         //    return newData;
+         // },
       }),
    }),
 });

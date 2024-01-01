@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Menu } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -7,29 +7,16 @@ import { Card, CardContent, CardImage, Text } from '../../../../components/Card/
 import IconButton from '../../../../components/IconButton/IconButton';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
 import { LikedMoviesInterface } from '../../../../state/features/likeAndBookmark';
-import {
-   likeAndBookmarkTagTypesObject,
-   useLikeMoviesMutation,
-} from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
-import { useAppDispatch } from '../../../../state/store/hooks';
+import { useLikeMoviesMutation } from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 import { checkUserIsLoggedIn, getPosterImage } from '../../../../utils/helper';
-import { likeAndBookmark } from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 
 const MovieCard = ({ likeMovie }: LikedMoviesInterface) => {
    const [visible, setVisible] = useState(false);
-   const [addToLike, { data: addToLikeData }] = useLikeMoviesMutation();
-   const dispatch = useAppDispatch();
+   const [addToLike] = useLikeMoviesMutation();
 
    const openMenu = () => setVisible(true);
 
    const closeMenu = () => setVisible(false);
-
-   const removeMovieFromCache = async (movieId: string | number) => {
-      const user = await checkUserIsLoggedIn();
-      if (user) {
-         dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
-      }
-   };
 
    const removeItem = async function () {
       closeMenu();
@@ -38,14 +25,6 @@ const MovieCard = ({ likeMovie }: LikedMoviesInterface) => {
          addToLike({ movieId: likeMovie.id.toString(), userId: user.user._id });
       }
    };
-
-   useEffect(() => {
-      if (!!addToLikeData && addToLikeData?.success) {
-         if (!addToLikeData.add) {
-            removeMovieFromCache(likeMovie.id);
-         }
-      }
-   }, [addToLikeData]);
 
    return (
       <Box margin={{ bottom: 10 }}>

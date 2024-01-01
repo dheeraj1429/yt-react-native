@@ -151,7 +151,7 @@ export class BookmarkAndLikeService {
 
    async getLikedMovies(query: GetLikedMoviesDto): Promise<GetLikedMoviesResponse> {
       const { userId, page } = query;
-      const documentLimit = 10;
+      const documentLimit = 8;
 
       try {
          const documentCount = await this.likeModel.aggregate([

@@ -4,15 +4,21 @@ import { Text } from '../../components/Card/Card';
 import { FullViewContainer, ViewWithSidePadding } from '../../components/Container/Container';
 import { Spinner, SpinnerContainer } from '../../components/Spinner/Spinner';
 import { theme } from '../../infrastructure/styleComponentTheme';
-import { useLazyGetLikedMoviesQuery } from '../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
+import {
+   likeAndBookmark,
+   likeAndBookmarkTagTypesObject,
+   useLazyGetLikedMoviesQuery,
+} from '../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 import { checkUserIsLoggedIn } from '../../utils/helper';
 import MovieCard from './Components/MovieCard/MovieCard';
 import { FlatList } from 'react-native';
+import { useAppDispatch } from '../../state/store/hooks';
 
 const LikedMoviesList = () => {
    const [getLikedMovies, { isLoading: getLikedMoviesLoading, data: getLikedMoviesData }] =
       useLazyGetLikedMoviesQuery();
    const [page, setPage] = useState(1);
+   const dispatch = useAppDispatch();
 
    const getMoviesList = async function () {
       const userData = await checkUserIsLoggedIn();
@@ -30,6 +36,12 @@ const LikedMoviesList = () => {
    useEffect(() => {
       getMoviesList();
    }, [page]);
+
+   useEffect(() => {
+      return () => {
+         dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
+      };
+   }, [dispatch]);
 
    return (
       <FullViewContainer>
