@@ -8,3 +8,8 @@ export interface KnownError {
    error?: string;
    statusCode?: string;
 }
+export interface PaginationInterface {
+   page?: number;
+   total_pages?: number;
+   total_results?: number;
+}

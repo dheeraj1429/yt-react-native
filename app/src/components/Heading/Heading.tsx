@@ -1,23 +1,19 @@
-import React, { forwardRef, useRef } from 'react';
-import { Text, TextProps, TouchableOpacity, View, ViewProps } from 'react-native';
+import React, { forwardRef } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { HeadingContainerInterface, HeadingInterface, ShowAllInterface } from '.';
 import { HeadingContainerStyle, HeadingTextStyle, ShowAllTextStyle } from './Heading.style';
 
-export const HeadingContainer = forwardRef<ViewProps, HeadingContainerInterface>(({ children, ...props }, _) => {
-   const headingRef = useRef<View>(null);
-
+export const HeadingContainer = forwardRef<View, HeadingContainerInterface>(({ children, ...props }, ref) => {
    return (
-      <HeadingContainerStyle {...props} ref={headingRef}>
+      <HeadingContainerStyle {...props} ref={ref}>
          {children}
       </HeadingContainerStyle>
    );
 });
 
-export const HeadingText = forwardRef<TextProps, HeadingInterface>(({ children, heading, ...props }, _) => {
-   const headingRef = useRef<Text>(null);
-
+export const HeadingText = forwardRef<Text, HeadingInterface>(({ children, heading, ...props }, ref) => {
    return (
-      <HeadingTextStyle {...props} ref={headingRef}>
+      <HeadingTextStyle ref={ref} {...props}>
          {heading}
       </HeadingTextStyle>
    );

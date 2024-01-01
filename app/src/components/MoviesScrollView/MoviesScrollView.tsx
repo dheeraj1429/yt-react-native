@@ -23,7 +23,7 @@ const MoviesScrollView = ({ isLoading, data, heading, showAll }: MoviesScrollVie
    const { navigate } = useNavigation<StackNavigation>();
 
    const singlePageRouteHandler = function (movieId: string | number) {
-      navigate(appRoutes.singleMovieInformation, { movieId });
+      navigate(appRoutes.VideoHub, { movieId });
    };
 
    return (

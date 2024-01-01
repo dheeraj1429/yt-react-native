@@ -4,8 +4,8 @@ import { getSpaceStyle } from '../../utils/helper';
 import { BoxProps } from '.';
 
 export const BoxSpacingFunction = ({ padding, margin }: BoxProps) => `
-${!!margin ? getSpaceStyle({ ...margin, PrType: 'margin' }) : 'margin: 0px;'}
-${!!padding ? getSpaceStyle({ ...padding, PrType: 'padding' }) : 'padding: 0px;'}
+   ${!!margin ? getSpaceStyle({ ...margin, PrType: 'margin' }) : 'margin: 0px;'}
+   ${!!padding ? getSpaceStyle({ ...padding, PrType: 'padding' }) : 'padding: 0px;'}
 `;
 
 export const BoxContainer = styled(View)<BoxProps>`

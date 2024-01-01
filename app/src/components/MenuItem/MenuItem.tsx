@@ -9,11 +9,12 @@ export interface MenuItemInterface {
    children?: React.ReactNode;
    arrowIcon?: React.ReactNode;
    id?: string;
+   action?: () => void;
 }
 
-const MenuItem = ({ icon, arrowIcon, children }: MenuItemInterface) => {
+const MenuItem = ({ icon, arrowIcon, children, action }: MenuItemInterface) => {
    return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={action}>
          <ItemStyleContainer>
             <IconAndChildrenContainer>
                <ItemIconContainer>{icon}</ItemIconContainer>

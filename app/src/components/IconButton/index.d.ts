@@ -1,5 +1,5 @@
 import { TouchableOpacityProps } from 'react-native';
-import { WidthAndHeightInterface } from '../../shared/types';
+import { PositionType, WidthAndHeightInterface } from '../../shared/types';
 import { BoxProps } from '../Box';
 
 export interface IconButtonStyleProps extends WidthAndHeightInterface, BoxProps {

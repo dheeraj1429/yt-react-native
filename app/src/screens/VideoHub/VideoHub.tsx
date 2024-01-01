@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import uuid from 'react-native-uuid';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import YoutubePlayer from 'react-native-youtube-iframe';
 import Box from '../../components/Box/Box';
 import { Card, CardImage, Text } from '../../components/Card/Card';
 import { Chip, ChipText } from '../../components/Chip/Chip';
@@ -14,21 +14,34 @@ import { Spinner, SpinnerContainer } from '../../components/Spinner/Spinner';
 import { theme } from '../../infrastructure/styleComponentTheme';
 import { NavigationPropType } from '../../shared/types';
 import { useLazyGetSingleMovieDetailsQuery } from '../../state/features/movies/movies.apiSlice';
+import { useGetMovieTrailerQuery } from '../../state/features/moviesTrailer/moviesTrailer.apiSlice';
 import { getPosterImage } from '../../utils/helper';
-import { MovieInformationContainer, StyledButton } from './MovieInformation.style';
+import { MovieInformationContainer } from './VideoHub.style';
 import SocialHub from './components/SocialHub/SocialHub';
 
 interface RouteParams {
-   movieId?: string;
+   movieId: string;
 }
 
-const MovieInformation = ({ navigation, route }: NavigationPropType) => {
+const VideoHub = ({ navigation, route }: NavigationPropType) => {
    const { movieId } = route.params as RouteParams;
+   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+   const [showMoviePlayer, setShowMoviePlayer] = useState<boolean>(false);
+
    const [getMovieDetails, { isLoading: movieDetailsIsLoading, data: movieDetails }] =
       useLazyGetSingleMovieDetailsQuery();
+   const { data: getMovieTrailerData } = useGetMovieTrailerQuery({
+      tmdb_id: +movieId,
+      categories: 'Trailer',
+   });
 
    const goBackHandler = function () {
       navigation.goBack();
+   };
+
+   const playHandler = function () {
+      setShowMoviePlayer(true);
+      setIsPlaying(true);
    };
 
    useEffect(() => {
@@ -36,6 +49,12 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
          getMovieDetails({ movieId });
       }
    }, [movieId]);
+
+   useEffect(() => {
+      if (getMovieTrailerData) {
+         playHandler();
+      }
+   }, [getMovieTrailerData]);
 
    return (
       <ScrollViewWithTheme>
@@ -50,16 +69,26 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
             ) : null}
             {!!movieDetails ? (
                <Fragment>
-                  <Card>
-                     <CardImage
-                        customHeight={'200px'}
-                        customWidth={'100%'}
-                        resizeMode="cover"
-                        radius="0px"
-                        source={{
-                           uri: getPosterImage(movieDetails.backdrop_path),
-                        }}
-                     />
+                  <Card customHeight={'auto'}>
+                     {showMoviePlayer ? (
+                        <Box>
+                           <YoutubePlayer
+                              height={230}
+                              play={isPlaying}
+                              videoId={getMovieTrailerData?.trailer?.youtube_video_id}
+                           />
+                        </Box>
+                     ) : (
+                        <CardImage
+                           customHeight={'230px'}
+                           customWidth={'100%'}
+                           resizeMode="cover"
+                           radius="0px"
+                           source={{
+                              uri: getPosterImage(movieDetails.backdrop_path),
+                           }}
+                        />
+                     )}
                   </Card>
                   <ViewWithSidePadding>
                      <Box padding={{ direction: { position: 'top-bottom', size: theme.sizes.spacing.md } }}>
@@ -83,8 +112,9 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                               </ScrollView>
                            </Box>
                         ) : null}
-                        <Box margin={{ top: theme.sizes.spacing.md }}>
+                        {/* <Box margin={{ top: theme.sizes.spacing.md }}>
                            <StyledButton
+                              onPress={playHandler}
                               icon={() => (
                                  <FontAwesome5
                                     color={theme.colors.brand.muted}
@@ -98,7 +128,7 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
                                  Play & Watch
                               </Text>
                            </StyledButton>
-                        </Box>
+                        </Box> */}
                         {movieDetails?.tagline ? (
                            <Box
                               display="flex"
@@ -157,4 +187,4 @@ const MovieInformation = ({ navigation, route }: NavigationPropType) => {
    );
 };
 
-export default MovieInformation;
+export default VideoHub;

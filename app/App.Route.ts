@@ -1,7 +1,8 @@
 export const appRoutes = {
    login: 'login',
    main: 'main',
-   singleMovieInformation: 'singleMovieInformation',
+   VideoHub: 'VideoHub',
    home: 'home',
    settings: 'settings',
+   likedMoviesList: 'likedMoviesList',
 };

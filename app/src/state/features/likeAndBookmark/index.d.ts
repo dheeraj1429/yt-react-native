@@ -1,4 +1,5 @@
-import { ApiResponseInterface } from '../../../shared/types';
+import { ApiResponseInterface, PaginationInterface } from '../../../shared/types';
+import { GetSingleMovieDetailsInterface } from '../movies';
 
 export interface LikeAndBookmarkResponse {
    movieId: string;
@@ -13,4 +14,15 @@ export interface MovieLikeStatusPayload extends LikeMoviesPayload {}
 export interface MovieLikeStatusResponse extends ApiResponseInterface {
    movieId: string;
    liked: boolean;
+}
+export interface GetLikedMoviesPayload {
+   userId: string;
+   page: number;
+}
+export interface GetLikedMoviesResponse extends PaginationInterface, ApiResponseInterface {
+   likedMovies: {
+      _id: Types.ObjectId;
+      userId: Types.ObjectId;
+      likeMovie: GetSingleMovieDetailsInterface;
+   };
 }

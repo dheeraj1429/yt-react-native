@@ -1,4 +1,6 @@
-import { ApiResponseInterface } from 'src/shared/types';
+import { Types } from 'mongoose';
+import { GetSingleMovieDetailsInterface } from 'src/movies';
+import { ApiResponseInterface, PaginationInterface } from 'src/shared/types';
 
 export interface likeAndBookmarkResponse {
    movieId: string;
@@ -9,4 +11,17 @@ export interface LikeMoviesResponse extends ApiResponseInterface, likeAndBookmar
 export interface MovieLikeStatusResponse extends ApiResponseInterface {
    movieId: string;
    liked: boolean;
+}
+export interface FindUserLikedMoviesInterface {
+   _id: Types.ObjectId;
+   userId: Types.ObjectId;
+   likeMovie: { movieId: string; _id: Types.ObjectId; createdAt: Date };
+   createdAt: Date;
+}
+export interface GetLikedMoviesResponse extends PaginationInterface, ApiResponseInterface {
+   likedMovies: Array<{
+      _id: Types.ObjectId;
+      userId: Types.ObjectId;
+      likeMovie: GetSingleMovieDetailsInterface;
+   }>;
 }

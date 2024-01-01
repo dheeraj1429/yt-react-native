@@ -11,9 +11,9 @@ import MoviesScrollView from '../../components/MoviesScrollView/MoviesScrollView
 import NavMenu from '../../components/NavMenu/NavMenu';
 
 const Home = () => {
-   const { isLoading: getTopRatedMoviesLoading, data: getTopRatedMoviesData } = useGetTopRatedMoviesQuery({ page: 3 });
-   const { isLoading: getPopularMoviesLoading, data: getPopularMoviesData } = useGetPopularMoviesQuery({ page: 3 });
-   const { isLoading: getUpComingMoviesLoading, data: getUpComingMoviesData } = useGetUpcomingMoviesQuery({ page: 3 });
+   const { isLoading: getTopRatedMoviesLoading, data: getTopRatedMoviesData } = useGetTopRatedMoviesQuery({ page: 2 });
+   const { isLoading: getPopularMoviesLoading, data: getPopularMoviesData } = useGetPopularMoviesQuery({ page: 2 });
+   const { isLoading: getUpComingMoviesLoading, data: getUpComingMoviesData } = useGetUpcomingMoviesQuery({ page: 2 });
    const { isLoading: getMovieDiscoverLoading, data: getMovieDiscoverData } = useGetMovieDiscoverQuery({
       sort_by: 'popularity.desc',
       language: 'en-US',

@@ -16,8 +16,9 @@ import { store } from './src/state/store/store';
 
 import Login from './src/screens/Auth/Login';
 import Home from './src/screens/Home/Home';
-import MovieInformation from './src/screens/MovieInformation/MovieInformation';
+import VideoHub from './src/screens/VideoHub/VideoHub';
 import Settings from './src/screens/Settings/Settings';
+import LikedMoviesList from './src/screens/LikedMoviesList/LikedMoviesList';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -29,7 +30,11 @@ function HomeTabs() {
             tabBarInactiveTintColor: theme.colors.text.disabledDark,
             tabBarActiveTintColor: theme.colors.text.primaryLight,
             headerShown: false,
-            tabBarStyle: { backgroundColor: theme.colors.brand.secondary, height: theme.sizes.widthAndHeight.grand, paddingTop: 20 },
+            tabBarStyle: {
+               backgroundColor: theme.colors.brand.secondary,
+               height: theme.sizes.widthAndHeight.grand,
+               paddingTop: 20,
+            },
          }}
       >
          <Tab.Screen
@@ -37,7 +42,9 @@ function HomeTabs() {
             component={Home}
             options={{
                tabBarShowLabel: false,
-               tabBarIcon: ({ color, size }) => <AntDesign color={color} size={size} name="youtube" style={{ position: 'absolute' }} />,
+               tabBarIcon: ({ color, size }) => (
+                  <AntDesign color={color} size={size} name="youtube" style={{ position: 'absolute' }} />
+               ),
             }}
          />
          <Tab.Screen
@@ -45,7 +52,9 @@ function HomeTabs() {
             component={Settings}
             options={{
                tabBarShowLabel: false,
-               tabBarIcon: ({ color, size }) => <Ionicons color={color} size={size} name="settings" style={{ position: 'absolute' }} />,
+               tabBarIcon: ({ color, size }) => (
+                  <Ionicons color={color} size={size} name="settings" style={{ position: 'absolute' }} />
+               ),
             }}
          />
       </Tab.Navigator>
@@ -63,7 +72,8 @@ function App(): React.JSX.Element {
                      <Stack.Navigator initialRouteName={appRoutes.login} screenOptions={{ headerShown: false }}>
                         <Stack.Screen name={appRoutes.login} component={Login} />
                         <Stack.Screen name={appRoutes.main} component={HomeTabs} />
-                        <Stack.Screen name={appRoutes.singleMovieInformation} component={MovieInformation} />
+                        <Stack.Screen name={appRoutes.VideoHub} component={VideoHub} />
+                        <Stack.Screen name={appRoutes.likedMoviesList} component={LikedMoviesList} />
                      </Stack.Navigator>
                   </NavigationContainer>
                </SafeArea>

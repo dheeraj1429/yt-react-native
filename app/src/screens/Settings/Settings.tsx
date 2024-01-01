@@ -13,43 +13,57 @@ import { SettingContainer } from './Settings.style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationPropType } from '../../shared/types';
 
-const SettingsAr: Array<MenuItemInterface> = [
-   {
-      icon: (
-         <Ionicons
-            size={theme.sizes.fontSize['text-3xl']}
-            color={theme.colors.text.primaryLight}
-            name="notifications"
-         />
-      ),
-      children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
-      id: uuid.v4().toString(),
-   },
-   {
-      icon: <Feather size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="list" />,
-      children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
-      id: uuid.v4().toString(),
-   },
-   {
-      icon: <Ionicons size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="settings" />,
-      children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Settings</Text>,
-      id: uuid.v4().toString(),
-   },
-   {
-      icon: <Feather size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="user" />,
-      children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Account</Text>,
-      id: uuid.v4().toString(),
-   },
-   {
-      icon: (
-         <AntDesign size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="infocirlce" />
-      ),
-      children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Account</Text>,
-      id: uuid.v4().toString(),
-   },
-];
-
 const Settings = ({ navigation }: NavigationPropType) => {
+   const SettingsAr: Array<MenuItemInterface> = [
+      {
+         icon: (
+            <Ionicons
+               size={theme.sizes.fontSize['text-3xl']}
+               color={theme.colors.text.primaryLight}
+               name="notifications"
+            />
+         ),
+         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
+         id: uuid.v4().toString(),
+      },
+      {
+         icon: <Feather size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="list" />,
+         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
+         id: uuid.v4().toString(),
+      },
+      {
+         icon: (
+            <Ionicons size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="settings" />
+         ),
+         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Settings</Text>,
+         id: uuid.v4().toString(),
+      },
+      {
+         icon: <Feather size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="user" />,
+         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Account</Text>,
+         id: uuid.v4().toString(),
+      },
+      {
+         icon: (
+            <AntDesign
+               size={theme.sizes.fontSize['text-3xl']}
+               color={theme.colors.text.primaryLight}
+               name="infocirlce"
+            />
+         ),
+         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Account</Text>,
+         id: uuid.v4().toString(),
+      },
+      {
+         icon: (
+            <AntDesign size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="like2" />
+         ),
+         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Liked</Text>,
+         id: uuid.v4().toString(),
+         action: () => navigation.navigate('likedMoviesList'),
+      },
+   ];
+
    const logOut = async function () {
       await AsyncStorage.removeItem('user');
       navigation.navigate('Login');
@@ -64,7 +78,9 @@ const Settings = ({ navigation }: NavigationPropType) => {
             <Box margin={{ top: theme.sizes.spacing['2xl'] }}>
                {SettingsAr.map((item) => (
                   <Box key={item.id} margin={{ bottom: theme.sizes.spacing.md }}>
-                     <MenuItem icon={item.icon}>{item.children}</MenuItem>
+                     <MenuItem action={item?.action} icon={item.icon}>
+                        {item.children}
+                     </MenuItem>
                   </Box>
                ))}
             </Box>
