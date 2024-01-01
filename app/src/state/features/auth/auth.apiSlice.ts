@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UserAuthPayload, UserResponseInterface } from '.';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const tagTypesAr = {
+export const authTagTypes = {
    logIn: 'logIn',
    singUp: 'singUp',
 };
@@ -12,7 +12,7 @@ export const authApiSlice = createApi({
    baseQuery: fetchBaseQuery({
       baseUrl: process.env.BACKEND_URL,
    }),
-   tagTypes: [...Object.keys(tagTypesAr)],
+   tagTypes: [...Object.keys(authTagTypes)],
    endpoints: (builder) => ({
       signIn: builder.mutation<UserResponseInterface, UserAuthPayload>({
          query: (body) => ({

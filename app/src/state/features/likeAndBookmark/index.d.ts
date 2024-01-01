@@ -17,12 +17,13 @@ export interface MovieLikeStatusResponse extends ApiResponseInterface {
 }
 export interface GetLikedMoviesPayload {
    userId: string;
-   page: number;
+   page?: number;
+}
+export interface LikedMoviesInterface {
+   _id: Types.ObjectId;
+   userId: Types.ObjectId;
+   likeMovie: GetSingleMovieDetailsInterface;
 }
 export interface GetLikedMoviesResponse extends PaginationInterface, ApiResponseInterface {
-   likedMovies: {
-      _id: Types.ObjectId;
-      userId: Types.ObjectId;
-      likeMovie: GetSingleMovieDetailsInterface;
-   };
+   likedMovies: Array<LikedMoviesInterface>;
 }

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Box from '../../components/Box/Box';
 import { Text } from '../../components/Card/Card';
-import { ScrollViewWithTheme, ViewWithSidePadding } from '../../components/Container/Container';
+import { FullViewContainer, ViewWithSidePadding } from '../../components/Container/Container';
 import { Spinner, SpinnerContainer } from '../../components/Spinner/Spinner';
 import { theme } from '../../infrastructure/styleComponentTheme';
 import { useLazyGetLikedMoviesQuery } from '../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 import { checkUserIsLoggedIn } from '../../utils/helper';
 import MovieCard from './Components/MovieCard/MovieCard';
+import { FlatList } from 'react-native';
 
 const LikedMoviesList = () => {
    const [getLikedMovies, { isLoading: getLikedMoviesLoading, data: getLikedMoviesData }] =
@@ -20,12 +21,18 @@ const LikedMoviesList = () => {
       }
    };
 
+   const handleEndReached = function () {
+      if (getLikedMoviesData?.total_pages > page) {
+         setPage((prev) => prev + 1);
+      }
+   };
+
    useEffect(() => {
       getMoviesList();
    }, [page]);
 
    return (
-      <ScrollViewWithTheme>
+      <FullViewContainer>
          <ViewWithSidePadding flex={1}>
             <Text fontSize={theme.sizes.fontSize['text-5xl']}>Liked Movies</Text>
             <Box margin={{ top: theme.sizes.spacing.sm }}>
@@ -34,20 +41,31 @@ const LikedMoviesList = () => {
                   visual form of a document or a.
                </Text>
             </Box>
-            <Box margin={{ direction: { position: 'top-bottom', size: theme.sizes.spacing.lg } }}>
+            <Box flex={1} margin={{ direction: { position: 'top-bottom', size: theme.sizes.spacing.lg } }}>
                {getLikedMoviesLoading ? (
                   <SpinnerContainer>
                      <Spinner />
                   </SpinnerContainer>
                ) : null}
-               {!!getLikedMoviesData && getLikedMoviesData?.likedMovies.length
-                  ? getLikedMoviesData.likedMovies.map((item) => (
-                       <MovieCard key={item.likeMovie.id} likedMovies={item} />
-                    ))
-                  : null}
+               {!!getLikedMoviesData && getLikedMoviesData?.likedMovies.length ? (
+                  <FlatList
+                     data={getLikedMoviesData.likedMovies}
+                     keyExtractor={(item) => item.likeMovie.id}
+                     renderItem={({ item }) => <MovieCard likeMovie={item.likeMovie} />}
+                     onEndReached={handleEndReached}
+                     onEndReachedThreshold={0.1}
+                     ListFooterComponent={
+                        getLikedMoviesLoading ? (
+                           <SpinnerContainer>
+                              <Spinner />
+                           </SpinnerContainer>
+                        ) : null
+                     }
+                  />
+               ) : null}
             </Box>
          </ViewWithSidePadding>
-      </ScrollViewWithTheme>
+      </FullViewContainer>
    );
 };
 

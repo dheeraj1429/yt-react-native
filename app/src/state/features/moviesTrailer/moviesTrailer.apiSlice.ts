@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { MoviesTrailerPayload, MoviesTrailerResponse } from '.';
 
-const tagTypes = {
+export const moviesTrailerTagTypes = {
    getMovieTrailerTag: 'getMovieTrailerTag',
 };
 
 export const moviesTrailerApiSlice = createApi({
    reducerPath: 'moviesTrailer',
-   tagTypes: [...Object.keys(tagTypes)],
+   tagTypes: [...Object.keys(moviesTrailerTagTypes)],
    baseQuery: fetchBaseQuery({
       baseUrl: process.env.KINOCHECK_TRAILER_API_URL,
    }),
@@ -16,7 +16,7 @@ export const moviesTrailerApiSlice = createApi({
          query: ({ tmdb_id, categories }) => ({
             url: `?tmdb_id=${tmdb_id}&categories=${categories}`,
          }),
-         providesTags: [tagTypes.getMovieTrailerTag],
+         providesTags: [moviesTrailerTagTypes.getMovieTrailerTag],
       }),
    }),
 });

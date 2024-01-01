@@ -8,7 +8,7 @@ import {
    GetSingleMovieDetailsPayload,
 } from '.';
 
-const tagTypesAr = {
+export const moviesTagTypes = {
    getMovies: 'getMovies',
    topRatedMovies: 'topRatedMovies',
    getUpComingMovies: 'getUpComingMovies',
@@ -27,36 +27,36 @@ const baseQueryWithAuth = fetchBaseQuery({
 export const moviesApiSlice = createApi({
    reducerPath: 'movies',
    baseQuery: baseQueryWithAuth,
-   tagTypes: [...Object.keys(tagTypesAr)],
+   tagTypes: [...Object.keys(moviesTagTypes)],
    endpoints: (builder) => ({
       getPopularMovies: builder.query<GetMoviesInterface, PaginationPayloadInterface>({
          query: ({ page }) => ({
             url: addApiKeyWithRequest(`/movie/popular`, { page }),
          }),
-         providesTags: [tagTypesAr.getMovies],
+         providesTags: [moviesTagTypes.getMovies],
       }),
       getTopRatedMovies: builder.query<GetMoviesInterface, PaginationPayloadInterface>({
          query: ({ page }) => ({
             url: addApiKeyWithRequest(`/movie/top_rated`, { page }),
-            providesTags: [tagTypesAr.topRatedMovies],
+            providesTags: [moviesTagTypes.topRatedMovies],
          }),
       }),
       getUpcomingMovies: builder.query<GetMoviesInterface, PaginationPayloadInterface>({
          query: ({ page }) => ({
             url: addApiKeyWithRequest(`/movie/upcoming`, { page }),
-            providesTags: [tagTypesAr.getUpComingMovies],
+            providesTags: [moviesTagTypes.getUpComingMovies],
          }),
       }),
       getMovieDiscover: builder.query<GetMoviesInterface, GetMovieDiscoverPayload>({
          query: (args) => ({
             url: addApiKeyWithRequest(`/discover/movie`, args),
-            providesTags: [tagTypesAr.getMovieDiscover],
+            providesTags: [moviesTagTypes.getMovieDiscover],
          }),
       }),
       getSingleMovieDetails: builder.query<GetSingleMovieDetailsInterface, GetSingleMovieDetailsPayload>({
          query: ({ movieId }) => ({
             url: addApiKeyWithRequest(`/movie/${movieId}`),
-            providesTags: [tagTypesAr.getSingleMovieDetails],
+            providesTags: [moviesTagTypes.getSingleMovieDetails],
          }),
       }),
    }),

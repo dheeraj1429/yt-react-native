@@ -151,7 +151,7 @@ export class BookmarkAndLikeService {
 
    async getLikedMovies(query: GetLikedMoviesDto): Promise<GetLikedMoviesResponse> {
       const { userId, page } = query;
-      const documentLimit = 20;
+      const documentLimit = 10;
 
       try {
          const documentCount = await this.likeModel.aggregate([
@@ -191,7 +191,7 @@ export class BookmarkAndLikeService {
             error: false,
             likedMovies: data,
             page: Number(page),
-            total_pages: 1,
+            total_pages: Math.ceil(documentCountData?.count / documentLimit),
             total_results: documentCountData?.count,
          };
       } catch (err) {

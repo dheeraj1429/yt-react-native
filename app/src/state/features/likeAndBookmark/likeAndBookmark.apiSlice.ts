@@ -8,7 +8,7 @@ import {
    MovieLikeStatusResponse,
 } from '.';
 
-const tagTypesObject = {
+export const likeAndBookmarkTagTypesObject = {
    addToLike: 'addToLike',
    movieLikeStatus: 'movieLikeStatus',
    getLikedMoviesTag: 'getLikedMoviesTag',
@@ -19,7 +19,7 @@ export const likeAndBookmark = createApi({
    baseQuery: fetchBaseQuery({
       baseUrl: process.env.BACKEND_URL,
    }),
-   tagTypes: [...Object.keys(tagTypesObject)],
+   tagTypes: [...Object.keys(likeAndBookmarkTagTypesObject)],
    endpoints: (builder) => ({
       likeMovies: builder.mutation<LikeMovieInterface, LikeMoviesPayload>({
          query: (body) => ({
@@ -32,13 +32,32 @@ export const likeAndBookmark = createApi({
          query: ({ userId, movieId }) => ({
             url: `/bookmark-and-like/movie-like-status?userId=${userId}&movieId=${movieId}`,
          }),
-         providesTags: [tagTypesObject.movieLikeStatus],
+         providesTags: [likeAndBookmarkTagTypesObject.movieLikeStatus],
       }),
-      getLikedMovies: builder.query<Array<GetLikedMoviesResponse>, GetLikedMoviesPayload>({
+      getLikedMovies: builder.query<GetLikedMoviesResponse, GetLikedMoviesPayload>({
          query: ({ userId, page }) => ({
             url: `/bookmark-and-like/get-liked-movies?userId=${userId}&page=${page}`,
          }),
-         providesTags: [tagTypesObject.getLikedMoviesTag],
+         providesTags: [likeAndBookmarkTagTypesObject.getLikedMoviesTag],
+         serializeQueryArgs: ({ queryArgs }) => {
+            const newQueryArgs = { ...queryArgs };
+            if (newQueryArgs.page) {
+               delete newQueryArgs.page;
+            }
+            return newQueryArgs;
+         },
+         merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
+            if (currentCache) {
+               return {
+                  ...currentCache,
+                  page: newData.page,
+                  total_pages: newData.total_pages,
+                  total_results: newData.total_results,
+                  likedMovies: [...currentCache.likedMovies, ...newData.likedMovies],
+               };
+            }
+            return newData;
+         },
       }),
    }),
 });

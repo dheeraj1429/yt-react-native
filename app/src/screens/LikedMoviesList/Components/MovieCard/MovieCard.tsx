@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -6,25 +6,46 @@ import Box from '../../../../components/Box/Box';
 import { Card, CardContent, CardImage, Text } from '../../../../components/Card/Card';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
-import { GetLikedMoviesResponse } from '../../../../state/features/likeAndBookmark';
+import { LikedMoviesInterface } from '../../../../state/features/likeAndBookmark';
+import {
+   likeAndBookmarkTagTypesObject,
+   useLikeMoviesMutation,
+} from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
+import { useAppDispatch } from '../../../../state/store/hooks';
 import { checkUserIsLoggedIn, getPosterImage } from '../../../../utils/helper';
-import { useLikeMoviesMutation } from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
+import { likeAndBookmark } from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 
-const MovieCard = ({ likedMovies }: GetLikedMoviesResponse) => {
+const MovieCard = ({ likeMovie }: LikedMoviesInterface) => {
    const [visible, setVisible] = useState(false);
    const [addToLike, { data: addToLikeData }] = useLikeMoviesMutation();
+   const dispatch = useAppDispatch();
 
    const openMenu = () => setVisible(true);
 
    const closeMenu = () => setVisible(false);
 
+   const removeMovieFromCache = async (movieId: string | number) => {
+      const user = await checkUserIsLoggedIn();
+      if (user) {
+         dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
+      }
+   };
+
    const removeItem = async function () {
       closeMenu();
       const user = await checkUserIsLoggedIn();
       if (user) {
-         addToLike({ movieId: likedMovies.likeMovie.id.toString(), userId: user.user._id });
+         addToLike({ movieId: likeMovie.id.toString(), userId: user.user._id });
       }
    };
+
+   useEffect(() => {
+      if (!!addToLikeData && addToLikeData?.success) {
+         if (!addToLikeData.add) {
+            removeMovieFromCache(likeMovie.id);
+         }
+      }
+   }, [addToLikeData]);
 
    return (
       <Box margin={{ bottom: 10 }}>
@@ -36,19 +57,15 @@ const MovieCard = ({ likedMovies }: GetLikedMoviesResponse) => {
             customHeight={'90px'}
             alignItems="center"
          >
-            <CardImage customWidth={'35%'} source={{ uri: getPosterImage(likedMovies.likeMovie.poster_path) }} />
+            <CardImage customWidth={'35%'} source={{ uri: getPosterImage(likeMovie.poster_path) }} />
             <CardContent customWidth={'50%'}>
                <Box margin={{ bottom: theme.sizes.spacing.md }}>
                   <Text fontSize={theme.sizes.fontSize['text-xl']} fontWeight={500}>
-                     {likedMovies.likeMovie?.title.length >= 30
-                        ? `${likedMovies.likeMovie?.title.slice(0, 30)}...`
-                        : likedMovies.likeMovie?.title}
+                     {likeMovie?.title.length >= 30 ? `${likeMovie?.title.slice(0, 30)}...` : likeMovie?.title}
                   </Text>
                </Box>
                <Text color={theme.colors.ui.disabled} fontSize={theme.sizes.fontSize['text-lg']} fontWeight={400}>
-                  {likedMovies.likeMovie?.overview.length >= 50
-                     ? `${likedMovies.likeMovie?.overview.slice(0, 50)}...`
-                     : likedMovies.likeMovie?.overview}
+                  {likeMovie?.overview.length >= 50 ? `${likeMovie?.overview.slice(0, 50)}...` : likeMovie?.overview}
                </Text>
             </CardContent>
             <Box>
