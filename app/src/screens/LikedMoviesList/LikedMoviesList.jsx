@@ -17,6 +17,7 @@ import { useAppDispatch } from '../../state/store/hooks';
 const LikedMoviesList = () => {
    const [getLikedMovies, { isLoading: getLikedMoviesLoading, data: getLikedMoviesData }] =
       useLazyGetLikedMoviesQuery();
+
    const [page, setPage] = useState(1);
    const dispatch = useAppDispatch();
 

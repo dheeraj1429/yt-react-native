@@ -27,7 +27,22 @@ export const likeAndBookmark = createApi({
             method: 'POST',
             body,
          }),
-         invalidatesTags: [likeAndBookmarkTagTypesObject.getLikedMoviesTag],
+         async onQueryStarted(data, { dispatch, queryFulfilled }) {
+            const patchResult = dispatch(
+               likeAndBookmark.util.updateQueryData('getLikedMovies', data, (draft) => {
+                  return {
+                     ...draft,
+                     likedMovies: draft.likedMovies.filter((item) => item.likeMovie.id.toString() !== data.movieId),
+                  };
+               }),
+            );
+            try {
+               await queryFulfilled;
+            } catch (err) {
+               console.log(err);
+               patchResult.undo();
+            }
+         },
       }),
       movieLikeStatus: builder.query<MovieLikeStatusResponse, MovieLikeStatusPayload>({
          query: ({ userId, movieId }) => ({
@@ -47,18 +62,18 @@ export const likeAndBookmark = createApi({
             }
             return newQueryArgs;
          },
-         // merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
-         //    if (currentCache) {
-         //       return {
-         //          ...currentCache,
-         //          page: newData.page,
-         //          total_pages: newData.total_pages,
-         //          total_results: newData.total_results,
-         //          likedMovies: [...currentCache.likedMovies, ...newData.likedMovies],
-         //       };
-         //    }
-         //    return newData;
-         // },
+         merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
+            if (currentCache) {
+               return {
+                  ...currentCache,
+                  page: newData.page,
+                  total_pages: newData.total_pages,
+                  total_results: newData.total_results,
+                  likedMovies: [...currentCache.likedMovies, ...newData.likedMovies],
+               };
+            }
+            return newData;
+         },
       }),
    }),
 });
