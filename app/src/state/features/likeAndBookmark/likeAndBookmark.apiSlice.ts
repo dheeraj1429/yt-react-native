@@ -27,22 +27,7 @@ export const likeAndBookmark = createApi({
             method: 'POST',
             body,
          }),
-         async onQueryStarted(data, { dispatch, queryFulfilled }) {
-            const patchResult = dispatch(
-               likeAndBookmark.util.updateQueryData('getLikedMovies', data, (draft) => {
-                  return {
-                     ...draft,
-                     likedMovies: draft.likedMovies.filter((item) => item.likeMovie.id.toString() !== data.movieId),
-                  };
-               }),
-            );
-            try {
-               await queryFulfilled;
-            } catch (err) {
-               console.log(err);
-               patchResult.undo();
-            }
-         },
+         invalidatesTags: [likeAndBookmarkTagTypesObject.getLikedMoviesTag],
       }),
       movieLikeStatus: builder.query<MovieLikeStatusResponse, MovieLikeStatusPayload>({
          query: ({ userId, movieId }) => ({
@@ -64,12 +49,19 @@ export const likeAndBookmark = createApi({
          },
          merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
             if (currentCache) {
+               const uniqueNewItems = newData.likedMovies.filter(
+                  (newDataItem) =>
+                     !currentCache.likedMovies.some((cacheData) => cacheData.likeMovie.id === newDataItem.likeMovie.id),
+               );
+
                return {
                   ...currentCache,
                   page: newData.page,
                   total_pages: newData.total_pages,
                   total_results: newData.total_results,
-                  likedMovies: [...currentCache.likedMovies, ...newData.likedMovies],
+                  // likedMovies: currentCache.likedMovies.concat(uniqueNewItems),
+                  // likedMovies: uniqueNewItems,
+                  likedMovies: currentCache.likedMovies,
                };
             }
             return newData;

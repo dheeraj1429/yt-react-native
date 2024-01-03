@@ -75,7 +75,11 @@ const LikedMoviesList = () => {
                         ) : null
                      }
                   />
-               ) : null}
+               ) : (
+                  <Text fontSize={theme.sizes.fontSize['text-lg']} fontWeight={400} color={theme.colors.ui.disabled}>
+                     Opps! you don't have any liked movies
+                  </Text>
+               )}
             </Box>
          </ViewWithSidePadding>
       </FullViewContainer>

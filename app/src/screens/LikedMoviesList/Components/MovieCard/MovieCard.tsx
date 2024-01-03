@@ -10,7 +10,11 @@ import { LikedMoviesInterface } from '../../../../state/features/likeAndBookmark
 import { useLikeMoviesMutation } from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 import { checkUserIsLoggedIn, getPosterImage } from '../../../../utils/helper';
 
-const MovieCard = ({ likeMovie }: LikedMoviesInterface) => {
+export interface MovieCardInterface {
+   likeMovie: LikedMoviesInterface['likeMovie'];
+}
+
+const MovieCard = ({ likeMovie }: MovieCardInterface) => {
    const [visible, setVisible] = useState(false);
    const [addToLike] = useLikeMoviesMutation();
 
