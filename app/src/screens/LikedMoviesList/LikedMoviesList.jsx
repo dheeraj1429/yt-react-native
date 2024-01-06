@@ -44,12 +44,13 @@ const LikedMoviesList = () => {
       if (isFocused) {
          getMoviesList();
       }
+   }, [dispatch, isFocused, page]);
 
+   useEffect(() => {
       return () => {
          dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
-         setPage(1);
       };
-   }, [dispatch, isFocused, page]);
+   }, [dispatch]);
 
    return (
       <FullViewContainer>
