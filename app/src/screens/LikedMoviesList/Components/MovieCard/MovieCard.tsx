@@ -1,34 +1,25 @@
 import React, { useState } from 'react';
 import { Menu } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Box from '../../../../components/Box/Box';
 import { Card, CardContent, CardImage, Text } from '../../../../components/Card/Card';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
 import { LikedMoviesInterface } from '../../../../state/features/likeAndBookmark';
-import { useLikeMoviesMutation } from '../../../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
-import { checkUserIsLoggedIn, getPosterImage } from '../../../../utils/helper';
+import { getPosterImage } from '../../../../utils/helper';
+import { TouchableOpacity } from 'react-native';
 
 export interface MovieCardInterface {
    likeMovie: LikedMoviesInterface['likeMovie'];
+   menuItems: React.ReactNode;
+   imageActionEvent: () => void;
 }
 
-const MovieCard = ({ likeMovie }: MovieCardInterface) => {
+const MovieCard = ({ likeMovie, menuItems, imageActionEvent }: MovieCardInterface) => {
    const [visible, setVisible] = useState(false);
-   const [addToLike] = useLikeMoviesMutation();
 
    const openMenu = () => setVisible(true);
-
    const closeMenu = () => setVisible(false);
-
-   const removeItem = async function () {
-      closeMenu();
-      const user = await checkUserIsLoggedIn();
-      if (user) {
-         addToLike({ movieId: likeMovie.id.toString(), userId: user.user._id });
-      }
-   };
 
    return (
       <Box margin={{ bottom: 10 }}>
@@ -40,7 +31,11 @@ const MovieCard = ({ likeMovie }: MovieCardInterface) => {
             customHeight={'90px'}
             alignItems="center"
          >
-            <CardImage customWidth={'35%'} source={{ uri: getPosterImage(likeMovie.poster_path) }} />
+            <Card customWidth={'35%'}>
+               <TouchableOpacity onPress={imageActionEvent}>
+                  <CardImage customWidth={'100%'} source={{ uri: getPosterImage(likeMovie.poster_path) }} />
+               </TouchableOpacity>
+            </Card>
             <CardContent customWidth={'50%'}>
                <Box margin={{ bottom: theme.sizes.spacing.md }}>
                   <Text fontSize={theme.sizes.fontSize['text-xl']} fontWeight={500}>
@@ -51,29 +46,21 @@ const MovieCard = ({ likeMovie }: MovieCardInterface) => {
                   {likeMovie?.overview.length >= 50 ? `${likeMovie?.overview.slice(0, 50)}...` : likeMovie?.overview}
                </Text>
             </CardContent>
-            <Box>
-               <Menu
-                  visible={visible}
-                  onDismiss={closeMenu}
-                  anchor={
-                     <IconButton position="relative" onPress={openMenu}>
-                        <MaterialCommunityIcons color={theme.colors.ui.disabled} name="dots-vertical" />
-                     </IconButton>
-                  }
-               >
-                  <Menu.Item
-                     leadingIcon={() => (
-                        <Ionicons size={25} color={theme.colors.ui.disabled} name="remove-circle-outline" />
-                     )}
-                     onPress={removeItem}
-                     title={
-                        <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-lg']}>
-                           Remove
-                        </Text>
+            {menuItems ? (
+               <Box>
+                  <Menu
+                     visible={visible}
+                     onDismiss={closeMenu}
+                     anchor={
+                        <IconButton position="relative" onPress={openMenu}>
+                           <MaterialCommunityIcons color={theme.colors.ui.disabled} name="dots-vertical" />
+                        </IconButton>
                      }
-                  />
-               </Menu>
-            </Box>
+                  >
+                     {menuItems}
+                  </Menu>
+               </Box>
+            ) : null}
          </Card>
       </Box>
    );

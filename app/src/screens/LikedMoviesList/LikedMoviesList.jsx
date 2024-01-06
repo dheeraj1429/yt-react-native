@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
 import Box from '../../components/Box/Box';
 import { Text } from '../../components/Card/Card';
 import { FullViewContainer, ViewWithSidePadding } from '../../components/Container/Container';
@@ -9,17 +10,22 @@ import {
    likeAndBookmarkTagTypesObject,
    useLazyGetLikedMoviesQuery,
 } from '../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
+import { useAppDispatch } from '../../state/store/hooks';
 import { checkUserIsLoggedIn } from '../../utils/helper';
 import MovieCard from './Components/MovieCard/MovieCard';
-import { FlatList } from 'react-native';
-import { useAppDispatch } from '../../state/store/hooks';
+import { useNavigation } from '@react-navigation/native';
+import { navigationRoutes } from '../../infrastructure/navigation/navigation.routes';
+import { useIsFocused } from '@react-navigation/native';
 
 const LikedMoviesList = () => {
-   const [getLikedMovies, { isLoading: getLikedMoviesLoading, data: getLikedMoviesData }] =
-      useLazyGetLikedMoviesQuery();
+   const [getLikedMovies, { isLoading: getLikedMoviesLoading, data: getLikedMoviesData }] = useLazyGetLikedMoviesQuery({
+      refetchOnFocus: true,
+   });
 
    const [page, setPage] = useState(1);
    const dispatch = useAppDispatch();
+   const { navigate } = useNavigation();
+   const isFocused = useIsFocused();
 
    const getMoviesList = async function () {
       const userData = await checkUserIsLoggedIn();
@@ -35,14 +41,14 @@ const LikedMoviesList = () => {
    };
 
    useEffect(() => {
-      getMoviesList();
-   }, [page]);
+      if (isFocused) {
+         getMoviesList();
+      }
 
-   useEffect(() => {
       return () => {
          dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
       };
-   }, [dispatch]);
+   }, [dispatch, isFocused, page]);
 
    return (
       <FullViewContainer>
@@ -64,7 +70,16 @@ const LikedMoviesList = () => {
                   <FlatList
                      data={getLikedMoviesData.likedMovies}
                      keyExtractor={(item) => item.likeMovie.id}
-                     renderItem={({ item }) => <MovieCard likeMovie={item.likeMovie} />}
+                     renderItem={({ item }) => (
+                        <MovieCard
+                           imageActionEvent={() =>
+                              navigate(navigationRoutes.VideoHub, {
+                                 movieId: item.likeMovie.id,
+                              })
+                           }
+                           likeMovie={item.likeMovie}
+                        />
+                     )}
                      onEndReached={handleEndReached}
                      onEndReachedThreshold={0.1}
                      ListFooterComponent={
@@ -75,11 +90,11 @@ const LikedMoviesList = () => {
                         ) : null
                      }
                   />
-               ) : (
+               ) : !getLikedMoviesLoading ? (
                   <Text fontSize={theme.sizes.fontSize['text-lg']} fontWeight={400} color={theme.colors.ui.disabled}>
                      Opps! you don't have any liked movies
                   </Text>
-               )}
+               ) : null}
             </Box>
          </ViewWithSidePadding>
       </FullViewContainer>

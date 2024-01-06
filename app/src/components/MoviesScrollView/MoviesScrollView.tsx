@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { appRoutes } from '../../../App.Route';
+import { navigationRoutes } from '../../infrastructure/navigation/navigation.routes';
 import Box from '../Box/Box';
 import { Card, CardContent, CardImage, Text } from '../Card/Card';
 import { ViewWithSidePadding } from '../Container/Container';
@@ -23,7 +23,7 @@ const MoviesScrollView = ({ isLoading, data, heading, showAll }: MoviesScrollVie
    const { navigate } = useNavigation<StackNavigation>();
 
    const singlePageRouteHandler = function (movieId: string | number) {
-      navigate(appRoutes.VideoHub, { movieId });
+      navigate(navigationRoutes.VideoHub, { movieId });
    };
 
    return (
