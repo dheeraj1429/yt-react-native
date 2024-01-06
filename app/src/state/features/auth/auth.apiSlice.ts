@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UserAuthPayload, UserResponseInterface } from '.';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setLogin } from './auth.slice';
 
 export const authTagTypes = {
    logIn: 'logIn',
@@ -20,10 +21,11 @@ export const authApiSlice = createApi({
             method: 'POST',
             body,
          }),
-         onQueryStarted: async (_, { queryFulfilled }) => {
+         onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
             try {
                const { data } = await queryFulfilled;
                await AsyncStorage.setItem('user', JSON.stringify(data));
+               dispatch(setLogin(data));
             } catch (err) {
                console.log(err);
             }
@@ -35,10 +37,11 @@ export const authApiSlice = createApi({
             method: 'POST',
             body,
          }),
-         onQueryStarted: async (_, { queryFulfilled }) => {
+         onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
             try {
                const { data } = await queryFulfilled;
                await AsyncStorage.setItem('user', JSON.stringify(data));
+               dispatch(setLogin(data));
             } catch (err) {
                console.log(err);
             }

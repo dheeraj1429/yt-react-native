@@ -60,7 +60,7 @@ function HomeTabs() {
 
 export const AppNavigation = function () {
    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName={navigationRoutes.home} screenOptions={{ headerShown: false }}>
          <Stack.Screen name={navigationRoutes.main} component={HomeTabs} />
          <Stack.Screen name={navigationRoutes.VideoHub} component={VideoHub} />
       </Stack.Navigator>

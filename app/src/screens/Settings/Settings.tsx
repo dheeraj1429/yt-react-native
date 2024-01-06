@@ -12,8 +12,13 @@ import { theme } from '../../infrastructure/styleComponentTheme';
 import { SettingContainer } from './Settings.style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationPropType } from '../../shared/types';
+import { navigationRoutes } from '../../infrastructure/navigation/navigation.routes';
+import { useAppDispatch } from '../../state/store/hooks';
+import { setLogin } from '../../state/features/auth/auth.slice';
 
 const Settings = ({ navigation }: NavigationPropType) => {
+   const dispatch = useAppDispatch();
+
    const SettingsAr: Array<MenuItemInterface> = [
       {
          icon: (
@@ -60,11 +65,12 @@ const Settings = ({ navigation }: NavigationPropType) => {
          ),
          children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Liked</Text>,
          id: uuid.v4().toString(),
-         action: () => navigation.navigate('likedMoviesList'),
+         action: () => navigation.navigate(navigationRoutes.likedMoviesList),
       },
    ];
 
    const logOut = async function () {
+      dispatch(setLogin(null));
       await AsyncStorage.removeItem('user');
       navigation.navigate('Login');
    };

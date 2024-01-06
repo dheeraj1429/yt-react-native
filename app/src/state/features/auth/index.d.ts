@@ -14,3 +14,6 @@ export interface UserAuthPayload {
 export interface UserResponseInterface extends ApiResponseInterface {
    user: UserInterface;
 }
+export interface InitialStateInterface {
+   auth: UserResponseInterface | null;
+}

@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthNavigation } from './auth.navigation';
 import { NavigationContainer } from '@react-navigation/native';
+import { useEffect } from 'react';
+import { authSelector } from '../../state/features/auth/auth.selector';
+import { useAppSelector, useAppDispatch } from '../../state/store/hooks';
 import { AppNavigation } from './app.navigation';
+import { AuthNavigation } from './auth.navigation';
+import { setLogin } from '../../state/features/auth/auth.slice';
 
 export const Navigation = function () {
-   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+   const auth = useAppSelector(authSelector);
+   const dispatch = useAppDispatch();
 
    const isLoginExistInCache = async function () {
       const user = await AsyncStorage.getItem('user');
       if (user) {
-         setIsLoggedIn(true);
+         dispatch(setLogin(JSON.parse(user)));
       }
    };
 
@@ -18,5 +22,5 @@ export const Navigation = function () {
       isLoginExistInCache();
    }, []);
 
-   return <NavigationContainer>{isLoggedIn ? <AppNavigation /> : <AuthNavigation />}</NavigationContainer>;
+   return <NavigationContainer>{!!auth?.user?._id ? <AppNavigation /> : <AuthNavigation />}</NavigationContainer>;
 };
