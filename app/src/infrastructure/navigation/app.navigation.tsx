@@ -7,6 +7,7 @@ import Home from '../../screens/Home/Home';
 import VideoHub from '../../screens/VideoHub/VideoHub';
 import { theme } from '../styleComponentTheme';
 import { SettingNavigator } from './setting.navigation';
+import { RouteProp, StackActions } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -38,6 +39,14 @@ function HomeTabs() {
          <Tab.Screen
             name={navigationRoutes.settingNavigation}
             component={SettingNavigator}
+            listeners={({ navigation, route }) => ({
+               blur: () => {
+                  const router = route as any;
+                  if (!!router?.state?.index && router.state.index > 0) {
+                     navigation.dispatch(StackActions.popToTop());
+                  }
+               },
+            })}
             options={{
                tabBarShowLabel: false,
                tabBarIcon: ({ color, size }) => (

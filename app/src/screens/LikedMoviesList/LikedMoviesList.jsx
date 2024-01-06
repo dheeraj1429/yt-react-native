@@ -47,6 +47,7 @@ const LikedMoviesList = () => {
 
       return () => {
          dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
+         setPage(1);
       };
    }, [dispatch, isFocused, page]);
 
