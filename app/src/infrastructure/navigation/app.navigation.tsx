@@ -1,13 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { navigationRoutes } from './navigation.routes';
 import Home from '../../screens/Home/Home';
 import VideoHub from '../../screens/VideoHub/VideoHub';
 import { theme } from '../styleComponentTheme';
+import { navigationRoutes } from './navigation.routes';
 import { SettingNavigator } from './setting.navigation';
-import { RouteProp, StackActions } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

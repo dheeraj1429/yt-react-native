@@ -1,24 +1,35 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { GetSingleMovieDetailsInterface } from 'src/movies';
 import { MoviesService } from 'src/movies/movies.service';
 import {
    BookmarkMoviesResponse,
+   CreatePlaylistResponse,
+   DeletePlaylistResponse,
    FindUserLikedMoviesInterface,
    GetLikedMoviesResponse,
    LikeMoviesResponse,
    MovieLikeStatusResponse,
 } from '.';
-import { BookmarkDto, GetLikedMoviesDto, LikeDto, MovieLikeStatusDto } from './dtos/bookmaker.dto';
+import {
+   BookmarkDto,
+   CreatePlaylistDto,
+   DeletePlaylistDto,
+   GetLikedMoviesDto,
+   LikeDto,
+   MovieLikeStatusDto,
+} from './dtos/bookmaker.dto';
 import { Bookmark } from './schemas/bookmark.schema';
 import { Like } from './schemas/like.schema';
+import { Playlist } from './schemas/playlist.schema';
 
 @Injectable()
 export class BookmarkAndLikeService {
    constructor(
       @InjectModel(Bookmark.name) private readonly bookmarkModel: Model<Bookmark>,
       @InjectModel(Like.name) private readonly likeModel: Model<Like>,
+      @InjectModel(Playlist.name) private readonly playlistModel: Model<Playlist>,
       private readonly movieService: MoviesService,
    ) {}
 
@@ -198,5 +209,43 @@ export class BookmarkAndLikeService {
          console.log(err);
          throw new InternalServerErrorException(err?.message);
       }
+   }
+
+   async createPlaylist(body: CreatePlaylistDto): Promise<CreatePlaylistResponse> {
+      const { userId, playListName } = body;
+      const userObjectId = new Types.ObjectId(userId);
+
+      const checkPlayListAlreadyExists = await this.playlistModel.findOne(
+         { $and: [{ userId: userObjectId }, { playListName }] },
+         { playListName: 1 },
+      );
+      if (checkPlayListAlreadyExists) throw new ConflictException('Playlist already exists');
+
+      const createNewPlaylist = await new this.playlistModel({
+         userId: userObjectId,
+         playListName,
+      }).save();
+
+      if (!createNewPlaylist) throw new InternalServerErrorException();
+
+      return {
+         success: true,
+         error: false,
+         message: 'New playlist was created',
+      };
+   }
+
+   async deletePlaylist(query: DeletePlaylistDto): Promise<DeletePlaylistResponse> {
+      const { playListId } = query;
+
+      const findAndDeletePlaylist = await this.playlistModel.deleteOne({ _id: new Types.ObjectId(playListId) });
+      if (findAndDeletePlaylist.deletedCount) {
+         return {
+            success: true,
+            error: false,
+            message: 'Playlist deleted successfully',
+         };
+      }
+      throw new NotFoundException('Playlist not found');
    }
 }

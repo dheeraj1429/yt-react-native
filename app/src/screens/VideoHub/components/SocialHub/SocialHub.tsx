@@ -3,6 +3,7 @@ import Box from '../../../../components/Box/Box';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
 import Like from '../Like/Like';
 import Share from '../Share/Share';
+import AddToList from '../AddToList/AddToList';
 
 export interface SocialHubInterface {
    movieId: string;
@@ -19,6 +20,7 @@ const SocialHub = ({ movieId }: SocialHubInterface) => {
       >
          <Like movieId={movieId} />
          <Share />
+         <AddToList movieId={movieId} />
       </Box>
    );
 };

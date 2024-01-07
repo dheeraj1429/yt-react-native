@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from 'react';
-import uuid from 'react-native-uuid';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Box from '../../../../components/Box/Box';
 import { Text } from '../../../../components/Card/Card';
@@ -36,7 +35,6 @@ const Like = ({ movieId }: { movieId: string }) => {
    return (
       <IconButton
          onPress={() => pressHandler({ movieId })}
-         key={uuid.v4().toString()}
          customHeight={'auto'}
          customWidth={'auto'}
          position="relative"

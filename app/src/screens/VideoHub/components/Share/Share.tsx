@@ -1,6 +1,5 @@
 import React from 'react';
 import IconButton from '../../../../components/IconButton/IconButton';
-import uuid from 'react-native-uuid';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
 import Box from '../../../../components/Box/Box';
 import { Text } from '../../../../components/Card/Card';
@@ -9,7 +8,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const Share = () => {
    return (
       <IconButton
-         key={uuid.v4().toString()}
          customHeight={'auto'}
          customWidth={'auto'}
          position="relative"

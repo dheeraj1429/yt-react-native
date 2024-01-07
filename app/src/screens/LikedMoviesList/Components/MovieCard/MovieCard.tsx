@@ -31,7 +31,7 @@ const MovieCard = ({ likeMovie, menuItems, imageActionEvent }: MovieCardInterfac
             customHeight={'90px'}
             alignItems="center"
          >
-            <Card customWidth={'35%'}>
+            <Card customWidth={'37%'}>
                <TouchableOpacity onPress={imageActionEvent}>
                   <CardImage customWidth={'100%'} source={{ uri: getPosterImage(likeMovie.poster_path) }} />
                </TouchableOpacity>
