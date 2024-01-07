@@ -27,3 +27,6 @@ export interface GetLikedMoviesResponse extends PaginationInterface, ApiResponse
 }
 export interface CreatePlaylistResponse extends ApiResponseInterface {}
 export interface DeletePlaylistResponse extends ApiResponseInterface {}
+export interface StoreMovieInPlaylistResponse extends ApiResponseInterface {
+   add: boolean;
+}

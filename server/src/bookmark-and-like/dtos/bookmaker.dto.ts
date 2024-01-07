@@ -31,3 +31,9 @@ export class DeletePlaylistDto {
    @IsMongoId()
    readonly playListId: Types.ObjectId;
 }
+export class StoreMovieInPlaylistDto extends UserAndMovieDto {
+   @IsNotEmpty()
+   @IsString()
+   @IsMongoId()
+   readonly playListId: Types.ObjectId;
+}

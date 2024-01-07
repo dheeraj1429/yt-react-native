@@ -11,6 +11,7 @@ import {
    GetLikedMoviesResponse,
    LikeMoviesResponse,
    MovieLikeStatusResponse,
+   StoreMovieInPlaylistResponse,
 } from '.';
 import {
    BookmarkDto,
@@ -19,6 +20,7 @@ import {
    GetLikedMoviesDto,
    LikeDto,
    MovieLikeStatusDto,
+   StoreMovieInPlaylistDto,
 } from './dtos/bookmaker.dto';
 import { Bookmark } from './schemas/bookmark.schema';
 import { Like } from './schemas/like.schema';
@@ -247,5 +249,41 @@ export class BookmarkAndLikeService {
          };
       }
       throw new NotFoundException('Playlist not found');
+   }
+
+   async storeMovieInPlaylist(body: StoreMovieInPlaylistDto): Promise<StoreMovieInPlaylistResponse> {
+      const { userId, playListId, movieId } = body;
+      const userObjectId = new Types.ObjectId(userId);
+      const playlistObjectId = new Types.ObjectId(playListId);
+
+      const playListQuery = { _id: playlistObjectId, userId: userObjectId };
+      const dbQuery = {
+         $and: [playListQuery, { movies: { $elemMatch: { movieId } } }],
+      };
+
+      const isPlayListExists = await this.playlistModel.findOne({ _id: playlistObjectId }, { userId: 1 });
+      if (!isPlayListExists) throw new NotFoundException('Playlist does not exist');
+
+      const isMovieAlreadyInPlaylist = await this.playlistModel.findOne({ ...dbQuery }, { userId: 1 });
+
+      if (isMovieAlreadyInPlaylist) {
+         const removeMovieFromPlayList = await this.playlistModel.updateOne(
+            { ...dbQuery },
+            { $pull: { movies: { movieId } } },
+         );
+         if (removeMovieFromPlayList.modifiedCount) {
+            return { success: true, error: false, message: 'Movie removed successfully', add: false };
+         }
+         throw new InternalServerErrorException();
+      } else {
+         const addMovieToPlayList = await this.playlistModel.updateOne(playListQuery, {
+            $push: { movies: { movieId } },
+         });
+
+         if (addMovieToPlayList.modifiedCount) {
+            return { success: true, error: false, message: 'Movie added successfully', add: true };
+         }
+         throw new InternalServerErrorException();
+      }
    }
 }
