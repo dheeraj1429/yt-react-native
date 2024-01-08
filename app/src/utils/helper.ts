@@ -1,6 +1,7 @@
 import { Spacing } from '../shared/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserResponseInterface } from '../state/features/auth';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 export const addApiKeyWithRequest = function (apiUri: string, otherParameters?: Object) {
    let apiUrl = apiUri.endsWith('/') ? apiUri.slice(0, -1) : apiUri;
@@ -51,4 +52,26 @@ export const getSpaceStyle = ({ top, bottom, left, right, direction, PrType }: S
 export const checkUserIsLoggedIn = async () => {
    const user = await AsyncStorage.getItem('user');
    return user ? (JSON.parse(user) as UserResponseInterface) : null;
+};
+
+export const getUserFromAuth = async function (token: 'accessToken' | 'refreshToken'): Promise<string | null> {
+   const user = await AsyncStorage.getItem('user');
+   if (user) {
+      const userObject: UserResponseInterface = JSON.parse(user);
+      return userObject.user[token];
+   }
+   return null;
+};
+
+export const baseQueryWithToken = (baseUrl: string) => {
+   return fetchBaseQuery({
+      baseUrl,
+      prepareHeaders: async (headers) => {
+         const token = await getUserFromAuth('accessToken');
+         if (token) {
+            headers.set('authorization', 'Bearer ' + token);
+         }
+         return headers;
+      },
+   });
 };

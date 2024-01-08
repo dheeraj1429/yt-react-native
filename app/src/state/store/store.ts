@@ -3,6 +3,7 @@ import { moviesApiSlice } from '../features/movies/movies.apiSlice';
 import { authApiSlice } from '../features/auth/auth.apiSlice';
 import { likeAndBookmark } from '../features/likeAndBookmark/likeAndBookmark.apiSlice';
 import { moviesTrailerApiSlice } from '../features/moviesTrailer/moviesTrailer.apiSlice';
+import { playListApiSlice } from '../features/playList/playList.apiSlice';
 
 import { authSlice } from '../features/auth/auth.slice';
 
@@ -12,6 +13,7 @@ export const store = configureStore({
       [authApiSlice.reducerPath]: authApiSlice.reducer,
       [likeAndBookmark.reducerPath]: likeAndBookmark.reducer,
       [moviesTrailerApiSlice.reducerPath]: moviesTrailerApiSlice.reducer,
+      [playListApiSlice.reducerPath]: playListApiSlice.reducer,
 
       [authSlice.name]: authSlice.reducer,
    },
@@ -20,7 +22,8 @@ export const store = configureStore({
          .concat(moviesApiSlice.middleware)
          .concat(authApiSlice.middleware)
          .concat(likeAndBookmark.middleware)
-         .concat(moviesTrailerApiSlice.middleware),
+         .concat(moviesTrailerApiSlice.middleware)
+         .concat(playListApiSlice.middleware),
 });
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

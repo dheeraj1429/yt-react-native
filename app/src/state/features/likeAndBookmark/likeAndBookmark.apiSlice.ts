@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import {
    GetLikedMoviesPayload,
    GetLikedMoviesResponse,
@@ -7,8 +7,7 @@ import {
    MovieLikeStatusPayload,
    MovieLikeStatusResponse,
 } from '.';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserResponseInterface } from '../auth';
+import { baseQueryWithToken } from '../../../utils/helper';
 
 export const likeAndBookmarkTagTypesObject = {
    addToLike: 'addToLike',
@@ -16,29 +15,9 @@ export const likeAndBookmarkTagTypesObject = {
    getLikedMoviesTag: 'getLikedMoviesTag',
 };
 
-const getFromAuth = async function (token: 'accessToken' | 'refreshToken'): Promise<string | null> {
-   const user = await AsyncStorage.getItem('user');
-   if (user) {
-      const userObject: UserResponseInterface = JSON.parse(user);
-      return userObject.user[token];
-   }
-   return null;
-};
-
-const baseQuery = fetchBaseQuery({
-   baseUrl: process.env.BACKEND_URL,
-   prepareHeaders: async (headers) => {
-      const token = await getFromAuth('accessToken');
-      if (token) {
-         headers.set('authorization', 'Bearer ' + token);
-      }
-      return headers;
-   },
-});
-
 export const likeAndBookmark = createApi({
    reducerPath: 'likeAndBookmark',
-   baseQuery: baseQuery,
+   baseQuery: baseQueryWithToken(process.env.BACKEND_URL!),
    tagTypes: [...Object.keys(likeAndBookmarkTagTypesObject)],
    endpoints: (builder) => ({
       likeMovies: builder.mutation<LikeMovieInterface, LikeMoviesPayload>({

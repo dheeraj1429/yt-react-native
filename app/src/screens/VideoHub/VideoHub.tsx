@@ -112,23 +112,6 @@ const VideoHub = ({ navigation, route }: NavigationPropType) => {
                               </ScrollView>
                            </Box>
                         ) : null}
-                        {/* <Box margin={{ top: theme.sizes.spacing.md }}>
-                           <StyledButton
-                              onPress={playHandler}
-                              icon={() => (
-                                 <FontAwesome5
-                                    color={theme.colors.brand.muted}
-                                    size={theme.sizes.fontSize['text-2xl']}
-                                    name="play"
-                                 />
-                              )}
-                              mode="contained"
-                           >
-                              <Text fontSize={theme.sizes.fontSize['text-2xl']} color={theme.colors.brand.muted}>
-                                 Play & Watch
-                              </Text>
-                           </StyledButton>
-                        </Box> */}
                         {movieDetails?.tagline ? (
                            <Box
                               display="flex"

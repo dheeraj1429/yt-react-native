@@ -5,21 +5,34 @@ import { Text } from '../../../../components/Card/Card';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
 import PlayListModal from '../PlayListModal/PlayListModal';
+import CreatePlayList from '../CreatePlayList/CreatePlayList';
 
 export interface AddToListInterface {
    movieId: string;
 }
 
 const AddToList = ({ movieId }: AddToListInterface) => {
-   const [visibleModal, setVisibleModal] = useState<boolean>(false);
+   const [visiblePlaylistModal, setVisiblePlaylistModal] = useState<boolean>(false);
+   const [showCreatePlayListModal, setShowCreatePlayListModal] = useState<boolean>(false);
 
    const pressHandler = function ({ movieId }: { movieId: string }) {
-      setVisibleModal(true);
+      setVisiblePlaylistModal(true);
+   };
+
+   const showCreatePlayListModalHandler = function () {
+      setVisiblePlaylistModal(false);
+      setShowCreatePlayListModal(true);
    };
 
    return (
       <Fragment>
-         <PlayListModal movieId={movieId} hideModal={() => setVisibleModal(false)} visible={visibleModal} />
+         <CreatePlayList hideModal={() => setShowCreatePlayListModal(false)} visible={showCreatePlayListModal} />
+         <PlayListModal
+            showCreatePlayListHandler={showCreatePlayListModalHandler}
+            movieId={movieId}
+            hideModal={() => setVisiblePlaylistModal(false)}
+            visible={visiblePlaylistModal}
+         />
          <IconButton
             onPress={() => pressHandler({ movieId })}
             customHeight={'auto'}

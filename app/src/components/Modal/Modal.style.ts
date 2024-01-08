@@ -7,6 +7,6 @@ export const ModalContainerStyled = styled(Modal)`
 `;
 
 export const ModalContentStyled = styled(View)`
-   background-color: ${(props) => props.theme.colors.text.inverseDark};
+   background-color: ${(props) => props.theme.colors.text.gray};
    border-radius: 4px;
 `;
