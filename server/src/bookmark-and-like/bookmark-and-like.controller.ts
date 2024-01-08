@@ -4,6 +4,7 @@ import {
    BookmarkMoviesResponse,
    CreatePlaylistResponse,
    DeletePlaylistResponse,
+   GetAllPlaylistsResponse,
    GetLikedMoviesResponse,
    LikeMoviesResponse,
    MovieLikeStatusResponse,
@@ -18,6 +19,7 @@ import {
    LikeDto,
    MovieLikeStatusDto,
    StoreMovieInPlaylistDto,
+   UserIdDto,
 } from './dtos/bookmaker.dto';
 
 @UseGuards(JwtGuard)
@@ -65,5 +67,11 @@ export class BookmarkAndLikeController {
    @HttpCode(HttpStatus.OK)
    async storeMovieInPlaylist(@Body() body: StoreMovieInPlaylistDto): Promise<StoreMovieInPlaylistResponse> {
       return this.bookmarkAndLikeService.storeMovieInPlaylist(body);
+   }
+
+   @Get('get-all-playlists')
+   @HttpCode(HttpStatus.OK)
+   async getAllPlaylists(@Query() query: UserIdDto): Promise<GetAllPlaylistsResponse> {
+      return this.bookmarkAndLikeService.getAllPlaylists(query);
    }
 }

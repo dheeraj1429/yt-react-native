@@ -4,8 +4,8 @@ export interface UserInterface {
    email: string;
    createdAt: Date;
    avatar: string;
-   accessToken?: string;
-   refreshToken?: string;
+   accessToken: string;
+   refreshToken: string;
 }
 export interface UserAuthPayload {
    email: string;

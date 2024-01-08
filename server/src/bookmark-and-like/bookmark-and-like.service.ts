@@ -8,6 +8,7 @@ import {
    CreatePlaylistResponse,
    DeletePlaylistResponse,
    FindUserLikedMoviesInterface,
+   GetAllPlaylistsResponse,
    GetLikedMoviesResponse,
    LikeMoviesResponse,
    MovieLikeStatusResponse,
@@ -21,6 +22,7 @@ import {
    LikeDto,
    MovieLikeStatusDto,
    StoreMovieInPlaylistDto,
+   UserIdDto,
 } from './dtos/bookmaker.dto';
 import { Bookmark } from './schemas/bookmark.schema';
 import { Like } from './schemas/like.schema';
@@ -285,5 +287,13 @@ export class BookmarkAndLikeService {
          }
          throw new InternalServerErrorException();
       }
+   }
+
+   async getAllPlaylists(query: UserIdDto): Promise<GetAllPlaylistsResponse> {
+      const { userId } = query;
+      const userObjectId = new Types.ObjectId(userId);
+      const findUserPlayList = await this.playlistModel.find({ userId: userObjectId }, { playListName: 1 });
+      if (!findUserPlayList) throw new NotFoundException('Playlist not found!');
+      return { success: true, error: false, playlists: findUserPlayList };
    }
 }

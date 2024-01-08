@@ -30,3 +30,6 @@ export interface DeletePlaylistResponse extends ApiResponseInterface {}
 export interface StoreMovieInPlaylistResponse extends ApiResponseInterface {
    add: boolean;
 }
+export interface GetAllPlaylistsResponse extends ApiResponseInterface {
+   playlists: Array<{ _id: Types.ObjectId; playListName: string }>;
+}
