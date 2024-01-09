@@ -39,29 +39,29 @@ export const likeAndBookmark = createApi({
             url: `/bookmark-and-like/get-liked-movies?userId=${userId}&page=${page}`,
          }),
          providesTags: [likeAndBookmarkTagTypesObject.getLikedMoviesTag],
-         serializeQueryArgs: ({ endpointName }) => {
-            return endpointName;
-         },
-         forceRefetch: ({ currentArg, previousArg }) => {
-            return currentArg !== previousArg;
-         },
-         merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
-            if (currentCache) {
-               const uniqueNewItems = newData.likedMovies.filter(
-                  (newDataItem) =>
-                     !currentCache.likedMovies.some((cacheData) => cacheData.likeMovie.id === newDataItem.likeMovie.id),
-               );
+         // serializeQueryArgs: ({ endpointName }) => {
+         //    return endpointName;
+         // },
+         // forceRefetch: ({ currentArg, previousArg }) => {
+         //    return currentArg !== previousArg;
+         // },
+         // merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
+         //    if (currentCache) {
+         //       const uniqueNewItems = newData.likedMovies.filter(
+         //          (newDataItem) =>
+         //             !currentCache.likedMovies.some((cacheData) => cacheData.likeMovie.id === newDataItem.likeMovie.id),
+         //       );
 
-               return {
-                  ...currentCache,
-                  page: newData.page,
-                  total_pages: newData.total_pages,
-                  total_results: newData.total_results,
-                  likedMovies: currentCache.likedMovies.concat(uniqueNewItems),
-               };
-            }
-            return newData;
-         },
+         //       return {
+         //          ...currentCache,
+         //          page: newData.page,
+         //          total_pages: newData.total_pages,
+         //          total_results: newData.total_results,
+         //          likedMovies: currentCache.likedMovies.concat(uniqueNewItems),
+         //       };
+         //    }
+         //    return newData;
+         // },
       }),
    }),
 });

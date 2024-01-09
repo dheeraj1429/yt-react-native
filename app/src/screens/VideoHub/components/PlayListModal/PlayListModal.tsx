@@ -9,6 +9,7 @@ import { theme } from '../../../../infrastructure/styleComponentTheme';
 import {
    useLazyGetUserPlayListsQuery,
    useDeletePlayListMutation,
+   useStoreMovieInPlaylistMutation,
 } from '../../../../state/features/playList/playList.apiSlice';
 import { checkUserIsLoggedIn } from '../../../../utils/helper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -21,8 +22,9 @@ export interface PlaylistInterface {
    showCreatePlayListHandler: () => void;
 }
 
-const PlayListModal = ({ hideModal, visible, showCreatePlayListHandler }: PlaylistInterface) => {
+const PlayListModal = ({ hideModal, visible, showCreatePlayListHandler, movieId }: PlaylistInterface) => {
    const [getPlayLists, { isLoading: getPlayListsLoading, data: getPlayListsData }] = useLazyGetUserPlayListsQuery();
+   const [storeMovieInPlayList, { isSuccess: storeMovieInPlayListSuccess }] = useStoreMovieInPlaylistMutation();
    const [removePlayList] = useDeletePlayListMutation();
 
    const getUserPlayListsHandler = async () => {
@@ -32,6 +34,20 @@ const PlayListModal = ({ hideModal, visible, showCreatePlayListHandler }: Playli
          getPlayLists({ userId });
       }
    };
+
+   const storeMovieInPlayListHandler = async ({ playListId, movieId }: { playListId: string; movieId: string }) => {
+      const userObject = await checkUserIsLoggedIn();
+      const userId = userObject?.user?._id;
+      if (userId) {
+         storeMovieInPlayList({ userId, playListId, movieId });
+      }
+   };
+
+   useEffect(() => {
+      if (storeMovieInPlayListSuccess) {
+         hideModal();
+      }
+   }, [storeMovieInPlayListSuccess]);
 
    useEffect(() => {
       getUserPlayListsHandler();
@@ -62,12 +78,28 @@ const PlayListModal = ({ hideModal, visible, showCreatePlayListHandler }: Playli
                              flexDirection="row"
                              justifyContent="space-between"
                              padding={{ direction: { position: 'all', size: theme.sizes.spacing.lg } }}
+                             alignItems="center"
                           >
-                             <TouchableOpacity>
-                                <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-2xl']}>
-                                   {item.playListName}
-                                </Text>
-                             </TouchableOpacity>
+                             <Box display="flex" flexDirection="row" gap="10px" alignItems="center">
+                                <MaterialIcons
+                                   size={20}
+                                   name={
+                                      item?.movies.length
+                                         ? item.movies.some((elm) => elm.movieId === movieId)
+                                            ? 'playlist-add-check'
+                                            : 'playlist-play'
+                                         : 'playlist-play'
+                                   }
+                                   color={theme.colors.text.disabledLight}
+                                />
+                                <TouchableOpacity
+                                   onPress={() => storeMovieInPlayListHandler({ playListId: item._id, movieId })}
+                                >
+                                   <Text fontWeight={400} fontSize={theme.sizes.fontSize['text-2xl']}>
+                                      {item.playListName}
+                                   </Text>
+                                </TouchableOpacity>
+                             </Box>
                              <IconButton position="relative" onPress={() => removePlayList({ playListId: item._id })}>
                                 <MaterialIcons name="delete" color={theme.colors.text.disabledLight} />
                              </IconButton>

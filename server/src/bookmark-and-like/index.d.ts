@@ -31,5 +31,9 @@ export interface StoreMovieInPlaylistResponse extends ApiResponseInterface {
    add: boolean;
 }
 export interface GetAllPlaylistsResponse extends ApiResponseInterface {
-   playlists: Array<{ _id: Types.ObjectId; playListName: string }>;
+   playlists: Array<{
+      _id: Types.ObjectId;
+      playListName: string;
+      movies: Array<{ movieId: string }>;
+   }>;
 }

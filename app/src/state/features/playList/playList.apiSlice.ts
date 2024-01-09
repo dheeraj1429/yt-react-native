@@ -7,6 +7,8 @@ import {
    GetUserPlayListsPayload,
    RemovePlayListPayload,
    RemovePlayListResponse,
+   StoreMovieInPlaylistDto,
+   StoreMovieInPlaylistResponse,
 } from '.';
 
 const playListTagTypes = {
@@ -37,7 +39,20 @@ export const playListApiSlice = createApi({
          }),
          invalidatesTags: [playListTagTypes.getUserPlaylistsTag],
       }),
+      storeMovieInPlaylist: builder.mutation<StoreMovieInPlaylistResponse, StoreMovieInPlaylistDto>({
+         query: (body) => ({
+            url: '/bookmark-and-like/store-movie-in-playlist',
+            method: 'POST',
+            body,
+         }),
+         invalidatesTags: [playListTagTypes.getUserPlaylistsTag],
+      }),
    }),
 });
 
-export const { useLazyGetUserPlayListsQuery, useCreatePlayListMutation, useDeletePlayListMutation } = playListApiSlice;
+export const {
+   useLazyGetUserPlayListsQuery,
+   useCreatePlayListMutation,
+   useDeletePlayListMutation,
+   useStoreMovieInPlaylistMutation,
+} = playListApiSlice;

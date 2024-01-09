@@ -4,7 +4,11 @@ export interface GetUserPlayListsPayload {
    userId: string;
 }
 export interface GetAllPlaylistsResponse extends ApiResponseInterface {
-   playlists: Array<{ _id: string; playListName: string }>;
+   playlists: Array<{
+      _id: Types.ObjectId;
+      playListName: string;
+      movies: Array<{ _id: Types.ObjectId; movieId: string }>;
+   }>;
 }
 export interface CreatePlayListPayload {
    playListName: string;
@@ -15,3 +19,9 @@ export interface RemovePlayListPayload {
    playListId: string;
 }
 export interface RemovePlayListResponse extends ApiResponseInterface {}
+export interface StoreMovieInPlaylistDto extends GetUserPlayListsPayload, RemovePlayListPayload {
+   movieId: string;
+}
+export interface StoreMovieInPlaylistResponse extends ApiResponseInterface {
+   add: boolean;
+}

@@ -8,6 +8,7 @@ import { Navigation } from './src/infrastructure/navigation';
 import { paperTheme } from './src/infrastructure/paperTheme/theme';
 import { theme } from './src/infrastructure/styleComponentTheme';
 import { store } from './src/state/store/store';
+import Toast from 'react-native-toast-message';
 
 function App(): React.JSX.Element {
    return (
@@ -17,6 +18,7 @@ function App(): React.JSX.Element {
                <SafeArea>
                   <StatusBar animated={true} barStyle={'light-content'} showHideTransition={'fade'} hidden={false} />
                   <Navigation />
+                  <Toast />
                </SafeArea>
             </Provider>
          </PaperProvider>

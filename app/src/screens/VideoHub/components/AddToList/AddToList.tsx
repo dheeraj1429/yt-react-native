@@ -29,7 +29,7 @@ const AddToList = ({ movieId }: AddToListInterface) => {
          <CreatePlayList hideModal={() => setShowCreatePlayListModal(false)} visible={showCreatePlayListModal} />
          <PlayListModal
             showCreatePlayListHandler={showCreatePlayListModalHandler}
-            movieId={movieId}
+            movieId={movieId.toString()}
             hideModal={() => setVisiblePlaylistModal(false)}
             visible={visiblePlaylistModal}
          />

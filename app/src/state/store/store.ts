@@ -7,6 +7,8 @@ import { playListApiSlice } from '../features/playList/playList.apiSlice';
 
 import { authSlice } from '../features/auth/auth.slice';
 
+import { rtkQueryErrorLogger } from '../middlewares/errorLogger';
+
 export const store = configureStore({
    reducer: {
       [moviesApiSlice.reducerPath]: moviesApiSlice.reducer,
@@ -23,7 +25,8 @@ export const store = configureStore({
          .concat(authApiSlice.middleware)
          .concat(likeAndBookmark.middleware)
          .concat(moviesTrailerApiSlice.middleware)
-         .concat(playListApiSlice.middleware),
+         .concat(playListApiSlice.middleware)
+         .concat(rtkQueryErrorLogger),
 });
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

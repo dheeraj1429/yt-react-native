@@ -292,7 +292,7 @@ export class BookmarkAndLikeService {
    async getAllPlaylists(query: UserIdDto): Promise<GetAllPlaylistsResponse> {
       const { userId } = query;
       const userObjectId = new Types.ObjectId(userId);
-      const findUserPlayList = await this.playlistModel.find({ userId: userObjectId }, { playListName: 1 });
+      const findUserPlayList = await this.playlistModel.find({ userId: userObjectId }, { playListName: 1, movies: 1 });
       if (!findUserPlayList) throw new NotFoundException('Playlist not found!');
       return { success: true, error: false, playlists: findUserPlayList };
    }
