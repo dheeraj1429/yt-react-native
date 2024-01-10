@@ -6,6 +6,7 @@ export const navigationRoutes = {
    main: 'main',
    home: 'home',
    VideoHub: 'VideoHub',
+   searchMovies: 'SearchMovies',
 
    // setting screen navigation routes
    settingNavigation: 'settingNavigation',

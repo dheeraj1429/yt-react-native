@@ -1,13 +1,16 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Home from '../../screens/Home/Home';
-import VideoHub from '../../screens/VideoHub/VideoHub';
 import { theme } from '../styleComponentTheme';
 import { navigationRoutes } from './navigation.routes';
 import { SettingNavigator } from './setting.navigation';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Home from '../../screens/Home/Home';
+import VideoHub from '../../screens/VideoHub/VideoHub';
+import SearchMovies from '../../screens/SearchMovies/SearchMovies';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -63,6 +66,7 @@ export const AppNavigation = function () {
       <Stack.Navigator initialRouteName={navigationRoutes.home} screenOptions={{ headerShown: false }}>
          <Stack.Screen name={navigationRoutes.main} component={HomeTabs} />
          <Stack.Screen name={navigationRoutes.VideoHub} component={VideoHub} />
+         <Stack.Screen name={navigationRoutes.searchMovies} component={SearchMovies} />
       </Stack.Navigator>
    );
 };

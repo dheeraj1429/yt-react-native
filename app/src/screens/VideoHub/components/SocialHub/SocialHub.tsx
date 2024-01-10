@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '../../../../components/Box/Box';
 import { theme } from '../../../../infrastructure/styleComponentTheme';
 import Like from '../Like/Like';
-import Share from '../Share/Share';
 import AddToList from '../AddToList/AddToList';
 
 export interface SocialHubInterface {
@@ -19,7 +18,6 @@ const SocialHub = ({ movieId }: SocialHubInterface) => {
          gap={'6px'}
       >
          <Like movieId={movieId} />
-         <Share />
          <AddToList movieId={movieId} />
       </Box>
    );

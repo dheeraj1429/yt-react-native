@@ -1,7 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { navigationRoutes } from './navigation.routes';
+
 import LikedMoviesList from '../../screens/LikedMoviesList/LikedMoviesList';
 import Settings from '../../screens/Settings/Settings';
-import { navigationRoutes } from './navigation.routes';
 import VideoHub from '../../screens/VideoHub/VideoHub';
 
 const Stack = createNativeStackNavigator();

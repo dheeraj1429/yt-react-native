@@ -1,4 +1,4 @@
-import { PaginationInterface } from '../../../shared/types';
+import { ApiResponseInterface, PaginationInterface } from '../../../shared/types';
 
 export interface MovieInterface {
    adult: boolean;
@@ -54,4 +54,10 @@ export interface GetSingleMovieDetailsInterface extends MovieInterface {
 }
 export interface GetSingleMovieDetailsPayload {
    movieId: string;
+}
+export interface GetSearchMoviesPayload {
+   search: string;
+}
+export interface GetSearchMoviesResponse extends ApiResponseInterface {
+   results: Array<{ id: number; name: string }>;
 }

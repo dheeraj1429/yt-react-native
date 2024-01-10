@@ -1,21 +1,16 @@
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import Box from '../../components/Box/Box';
 import { Text } from '../../components/Card/Card';
 import { FullViewContainer, ViewWithSidePadding } from '../../components/Container/Container';
 import { Spinner, SpinnerContainer } from '../../components/Spinner/Spinner';
+import { navigationRoutes } from '../../infrastructure/navigation/navigation.routes';
 import { theme } from '../../infrastructure/styleComponentTheme';
-import {
-   likeAndBookmark,
-   likeAndBookmarkTagTypesObject,
-   useLazyGetLikedMoviesQuery,
-} from '../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
+import { useLazyGetLikedMoviesQuery } from '../../state/features/likeAndBookmark/likeAndBookmark.apiSlice';
 import { useAppDispatch } from '../../state/store/hooks';
 import { checkUserIsLoggedIn } from '../../utils/helper';
 import MovieCard from './Components/MovieCard/MovieCard';
-import { useNavigation } from '@react-navigation/native';
-import { navigationRoutes } from '../../infrastructure/navigation/navigation.routes';
-import { useIsFocused } from '@react-navigation/native';
 
 const LikedMoviesList = () => {
    const [getLikedMovies, { isLoading: getLikedMoviesLoading, data: getLikedMoviesData }] = useLazyGetLikedMoviesQuery({
@@ -45,12 +40,6 @@ const LikedMoviesList = () => {
          getMoviesList();
       }
    }, [dispatch, isFocused, page]);
-
-   useEffect(() => {
-      return () => {
-         dispatch(likeAndBookmark.util.invalidateTags([likeAndBookmarkTagTypesObject.getLikedMoviesTag]));
-      };
-   }, [dispatch]);
 
    return (
       <FullViewContainer>

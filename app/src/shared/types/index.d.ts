@@ -70,7 +70,7 @@ export interface PaginationInterface {
 
 /**
  * Represents the interface for handling API error responses.
- * - `data`: Object containing error details.
+ * - `data`: Object containing details.
  *    - `error`: A string representing the error type.
  *    - `message`: An array of error messages or a single error message string.
  *    - `statusCode`: A string representing the HTTP status code.

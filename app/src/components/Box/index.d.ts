@@ -1,7 +1,11 @@
-import { Spacing } from '../../shared/types';
+import { Spacing, WidthAndHeightInterface } from '../../shared/types';
 import { DisplayType, AlignItemsType, JustifyContentType, FlexDirectionType } from '../../shared/types';
 
-export interface BoxProps {
+export interface PaddingAndMarginProps {
+   padding?: Spacing;
+   margin?: Spacing;
+}
+export interface BoxProps extends PaddingAndMarginProps, WidthAndHeightInterface {
    children?: React.ReactNode;
    backgroundColor?: string;
    display?: DisplayType;
@@ -9,6 +13,4 @@ export interface BoxProps {
    alignItems?: AlignItemsType;
    flexDirection?: FlexDirectionType;
    gap?: string;
-   padding?: Spacing;
-   margin?: Spacing;
 }

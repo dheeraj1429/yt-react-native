@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { navigationRoutes } from './navigation.routes';
+
 import Login from '../../screens/Auth/Login';
 
 const Stack = createNativeStackNavigator();

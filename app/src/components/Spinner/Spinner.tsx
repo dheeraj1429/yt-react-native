@@ -1,9 +1,11 @@
 import React from 'react';
 import { ActivityIndicator, ActivityIndicatorProps, ViewProps } from 'react-native';
 import { SpinnerViewContainer } from './Spinner.style';
+import { Spacing } from '../../infrastructure/styleComponentTheme/sizes';
+import { PaddingAndMarginProps } from '../Box';
 
 export interface SpinnerInterface extends ActivityIndicatorProps {}
-export interface SpinnerStyleInterface {
+export interface SpinnerStyleInterface extends PaddingAndMarginProps {
    position?: 'absolute' | 'relative';
    zIndex?: number;
    top?: string;

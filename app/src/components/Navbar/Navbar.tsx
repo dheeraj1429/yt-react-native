@@ -1,7 +1,8 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Chip, ChipText, ChipTextInterface } from '../Chip/Chip';
+import { Chip, ChipText } from '../Chip/Chip';
 import { Image, ImageContainer, NavbarContainer } from './Navbar.style';
+import { ChipTextInterface } from '../Chip';
 
 const TabsAr: Array<ChipTextInterface> = [
    { heading: 'Tv Shows' },

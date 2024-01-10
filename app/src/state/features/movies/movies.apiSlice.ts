@@ -1,12 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { PaginationPayloadInterface } from '../../../shared/types';
-import { addApiKeyWithRequest } from '../../../utils/helper';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import {
    GetMovieDiscoverPayload,
    GetMoviesInterface,
+   GetSearchMoviesPayload,
+   GetSearchMoviesResponse,
    GetSingleMovieDetailsInterface,
    GetSingleMovieDetailsPayload,
 } from '.';
+import { PaginationPayloadInterface } from '../../../shared/types';
+import { addApiKeyWithRequest, baseQueryWithToken } from '../../../utils/helper';
 
 export const moviesTagTypes = {
    getMovies: 'getMovies',
@@ -14,19 +16,12 @@ export const moviesTagTypes = {
    getUpComingMovies: 'getUpComingMovies',
    getMovieDiscover: 'getMovieDiscover',
    getSingleMovieDetails: 'getSingleMovieDetails',
+   getSearchMovies: 'getSearchMovies',
 };
-
-const baseQueryWithAuth = fetchBaseQuery({
-   baseUrl: process.env.MOVIES_BASE_URL,
-   prepareHeaders: (headers) => {
-      headers.set('Authorization', process.env.API_ACCESS_TOKEN!);
-      return headers;
-   },
-});
 
 export const moviesApiSlice = createApi({
    reducerPath: 'movies',
-   baseQuery: baseQueryWithAuth,
+   baseQuery: baseQueryWithToken(process.env.MOVIES_BASE_URL!),
    tagTypes: [...Object.keys(moviesTagTypes)],
    endpoints: (builder) => ({
       getPopularMovies: builder.query<GetMoviesInterface, PaginationPayloadInterface>({
@@ -38,26 +33,32 @@ export const moviesApiSlice = createApi({
       getTopRatedMovies: builder.query<GetMoviesInterface, PaginationPayloadInterface>({
          query: ({ page }) => ({
             url: addApiKeyWithRequest(`/movie/top_rated`, { page }),
-            providesTags: [moviesTagTypes.topRatedMovies],
          }),
+         providesTags: [moviesTagTypes.topRatedMovies],
       }),
       getUpcomingMovies: builder.query<GetMoviesInterface, PaginationPayloadInterface>({
          query: ({ page }) => ({
             url: addApiKeyWithRequest(`/movie/upcoming`, { page }),
-            providesTags: [moviesTagTypes.getUpComingMovies],
          }),
+         providesTags: [moviesTagTypes.getUpComingMovies],
       }),
       getMovieDiscover: builder.query<GetMoviesInterface, GetMovieDiscoverPayload>({
          query: (args) => ({
             url: addApiKeyWithRequest(`/discover/movie`, args),
-            providesTags: [moviesTagTypes.getMovieDiscover],
          }),
+         providesTags: [moviesTagTypes.getMovieDiscover],
       }),
       getSingleMovieDetails: builder.query<GetSingleMovieDetailsInterface, GetSingleMovieDetailsPayload>({
          query: ({ movieId }) => ({
             url: addApiKeyWithRequest(`/movie/${movieId}`),
-            providesTags: [moviesTagTypes.getSingleMovieDetails],
          }),
+         providesTags: [moviesTagTypes.getSingleMovieDetails],
+      }),
+      searchMovies: builder.query<GetSearchMoviesResponse, GetSearchMoviesPayload>({
+         query: ({ search }) => ({
+            url: addApiKeyWithRequest(`/search/keyword`, { query: search }),
+         }),
+         providesTags: [moviesTagTypes.getSearchMovies],
       }),
    }),
 });
@@ -68,4 +69,5 @@ export const {
    useGetUpcomingMoviesQuery,
    useGetMovieDiscoverQuery,
    useLazyGetSingleMovieDetailsQuery,
+   useLazySearchMoviesQuery,
 } = moviesApiSlice;

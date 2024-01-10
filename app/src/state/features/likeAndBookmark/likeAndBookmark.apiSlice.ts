@@ -39,14 +39,10 @@ export const likeAndBookmark = createApi({
             url: `/bookmark-and-like/get-liked-movies?userId=${userId}&page=${page}`,
          }),
          providesTags: [likeAndBookmarkTagTypesObject.getLikedMoviesTag],
-         // serializeQueryArgs: ({ endpointName }) => {
-         //    return endpointName;
-         // },
-         // forceRefetch: ({ currentArg, previousArg }) => {
-         //    return currentArg !== previousArg;
-         // },
+         // serializeQueryArgs: ({ endpointName }) => endpointName,
+         // forceRefetch: ({ currentArg, previousArg }) => currentArg?.page !== previousArg?.page,
          // merge: (currentCache: GetLikedMoviesResponse, newData: GetLikedMoviesResponse) => {
-         //    if (currentCache) {
+         //    if (currentCache && !!newData?.page && newData.page > 1) {
          //       const uniqueNewItems = newData.likedMovies.filter(
          //          (newDataItem) =>
          //             !currentCache.likedMovies.some((cacheData) => cacheData.likeMovie.id === newDataItem.likeMovie.id),
