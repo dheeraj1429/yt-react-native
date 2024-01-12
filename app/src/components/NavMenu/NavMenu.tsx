@@ -28,7 +28,7 @@ const NavMenu = () => {
                <SearchIcon>
                   <AntDesign color={theme.colors.ui.tertiary} name="search1" />
                </SearchIcon>
-               <SearchInput onFocus={() => navigate(navigationRoutes.searchMovies)} placeholder="Search movies" />
+               <SearchInput onPressIn={() => navigate(navigationRoutes.searchMovies)} placeholder="Search movies" />
             </SearchBarContainer>
             <TouchableOpacity>
                <Entypo

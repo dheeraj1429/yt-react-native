@@ -22,7 +22,16 @@ export const playListApiSlice = createApi({
    endpoints: (builder) => ({
       getUserPlayLists: builder.query<GetAllPlaylistsResponse, GetUserPlayListsPayload>({
          query: ({ userId }) => ({ url: `/bookmark-and-like/get-all-playlists?userId=${userId}` }),
-         providesTags: [playListTagTypes.getUserPlaylistsTag],
+         providesTags: (resultValue) =>
+            resultValue?.playlists.length
+               ? [
+                    { type: playListTagTypes.getUserPlaylistsTag, id: 'getUserPlaylistId' },
+                    ...resultValue.playlists.map((item) => ({
+                       type: playListTagTypes.getUserPlaylistsTag,
+                       id: item._id,
+                    })),
+                 ]
+               : [playListTagTypes.getUserPlaylistsTag],
       }),
       createPlayList: builder.mutation<CreatePlayListResponse, CreatePlayListPayload>({
          query: (body) => ({
@@ -37,7 +46,7 @@ export const playListApiSlice = createApi({
             url: `/bookmark-and-like/remove-playlist?playListId=${playListId}`,
             method: 'DELETE',
          }),
-         invalidatesTags: [playListTagTypes.getUserPlaylistsTag],
+         invalidatesTags: (_, _2, args) => [{ type: playListTagTypes.getUserPlaylistsTag, id: args.playListId }],
       }),
       storeMovieInPlaylist: builder.mutation<StoreMovieInPlaylistResponse, StoreMovieInPlaylistDto>({
          query: (body) => ({
@@ -45,7 +54,7 @@ export const playListApiSlice = createApi({
             method: 'POST',
             body,
          }),
-         invalidatesTags: [playListTagTypes.getUserPlaylistsTag],
+         invalidatesTags: (_, _2, args) => [{ type: playListTagTypes.getUserPlaylistsTag, id: args.playListId }],
       }),
    }),
 });

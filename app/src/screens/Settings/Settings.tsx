@@ -21,17 +21,6 @@ const Settings = ({ navigation }: NavigationPropType) => {
 
    const SettingsAr: Array<MenuItemInterface> = [
       {
-         icon: (
-            <Ionicons
-               size={theme.sizes.fontSize['text-3xl']}
-               color={theme.colors.text.primaryLight}
-               name="notifications"
-            />
-         ),
-         children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
-         id: uuid.v4().toString(),
-      },
-      {
          icon: <Feather size={theme.sizes.fontSize['text-3xl']} color={theme.colors.text.primaryLight} name="list" />,
          children: <Text fontSize={theme.sizes.fontSize['text-xl']}>Notifications</Text>,
          id: uuid.v4().toString(),

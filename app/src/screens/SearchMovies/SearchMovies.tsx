@@ -1,16 +1,16 @@
 import _debounce from 'lodash/debounce';
 import React, { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { ScrollView } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Box from '../../components/Box/Box';
 import { FullViewContainer, ViewWithSidePadding } from '../../components/Container/Container';
 import { SearchBarContainer, SearchIcon, SearchInput } from '../../components/SearchBar/SearchBar';
+import { Spinner, SpinnerContainer } from '../../components/Spinner/Spinner';
 import { theme } from '../../infrastructure/styleComponentTheme';
 import { useLazySearchMoviesQuery } from '../../state/features/movies/movies.apiSlice';
 import { checkUserIsLoggedIn } from '../../utils/helper';
-import { SpinnerContainer, Spinner } from '../../components/Spinner/Spinner';
 import SearchItem from './Components/SearchItem/SearchItem';
-import { ScrollView } from 'react-native';
 
 export interface SearchMoviesStateInterface {
    search: string;

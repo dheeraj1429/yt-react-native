@@ -1,15 +1,15 @@
 export const navigationRoutes = {
    // authorization navigation routes
-   login: 'login',
+   login: 'Login',
 
    // app screen navigation routes
-   main: 'main',
-   home: 'home',
-   VideoHub: 'VideoHub',
-   searchMovies: 'SearchMovies',
+   main: 'Main',
+   home: 'Home',
+   VideoHub: 'Video Hub',
+   searchMovies: 'Search Movies',
 
    // setting screen navigation routes
-   settingNavigation: 'settingNavigation',
-   settings: 'settings',
-   likedMoviesList: 'likedMoviesList',
+   settingNavigation: 'Setting Navigation',
+   settings: 'Settings',
+   likedMoviesList: 'Liked Movies List',
 };
